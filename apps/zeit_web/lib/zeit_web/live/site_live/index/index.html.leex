@@ -1,0 +1,47 @@
+<div class="sites block">
+  <section>
+    <header>
+      <h2>My Sites</h2>
+      <span>
+        <%= live_patch "New Site +", to: Routes.site_index_path(@socket, :new) %>
+      </span>
+    </header>
+  </section>
+
+  <%= if @live_action in [:new, :edit] do %>
+    <%= live_modal @socket, ZeitWeb.SiteLive.Form,
+      id: @site.id || :new,
+      title: @page_title,
+      action: @live_action,
+      site: @site,
+      user: @user,
+      note_text: Strings.note_text(:site, @live_action),
+      submit_text: Strings.submit_text(:site, @live_action),
+      return_to: Routes.site_index_path(@socket, :index),
+      class: "modal modal--create-site" %>
+  <% end %>
+
+  <%= if @live_action in [:add_links] do %>
+    <%= live_modal @socket, ZeitWeb.Components.ImportLinksForm,
+      id: @site.id,
+      title: Strings.submit_text(:site, @live_action),
+      action: @live_action,
+      site: @site,
+      site_links: @site_links,
+      user: @user,
+      note_text: Strings.note_text(:site, @live_action),
+      submit_text: Strings.submit_text(:site, @live_action),
+      return_to: Routes.site_index_path(@socket, :index),
+      class: "modal modal--create-site" %>
+  <% end %>
+
+  <div class="content">
+  <%= for site <- @sites do %>
+    <%= live_component @socket, ZeitWeb.Components.SiteCard,
+      site: site,
+      links_count: Sites.links_count(site),
+      snapshots_count: Sites.snapshots_count(site),
+      used_space: Sites.used_space(site) %>
+  <% end %>
+  </div>
+</div>

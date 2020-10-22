@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <%= csrf_meta_tag() %>
+    <%= live_title_tag assigns[:page_title] || "Zeit", suffix: " · Pulse" %>
+    <link rel="icon" type="image/png" href="<%= Routes.static_path(@conn, "/images/avatar.png") %>">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/pretty-checkbox@3.0/dist/pretty-checkbox.min.css"/>
+    <link phx-track-static rel="stylesheet" href="<%= Routes.static_path(@conn, "/css/app.css") %>"/>
+    <script defer phx-track-static type="text/javascript" src="<%= Routes.static_path(@conn, "/js/app.js") %>"></script>
+  </head>
+  <body>
+    <%= if @conn.assigns.user && @conn.assigns.authenticated do %>
+    <header>
+      <section>
+        <nav role="img">
+          <img src="<%= Routes.static_path(@conn, "/images/logo.svg") %>"/>
+        </nav>
+        <nav role="navigation">
+          <ul>
+            <li><%= link "Sites", to: Routes.site_index_path(@conn, :index) %></li>
+            <%= if @conn.assigns.user.is_admin do %>
+            <li><%= link "Proxies", to: Routes.proxy_index_path(@conn, :index) %></li>
+            <% end %>
+            <%= if function_exported?(Routes, :live_dashboard_path, 2) do %>
+              <li><%= link "Live dashboard", to: Routes.live_dashboard_path(@conn, :home), target: "_blank" %></li>
+            <% end %>
+          </ul>
+        </nav>
+        <nav role="button">
+          <img class="zi-avatar square" src="<%= Routes.static_path(@conn, "/images/avatar.png") %>">
+        </nav>
+      </section>
+    </header>
+    <% end %>
+    <%= @inner_content %>
+  </body>
+</html>

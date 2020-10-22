@@ -1,0 +1,4 @@
+<a class="signin" href="<%= Routes.auth_path(@conn, :request, String.downcase(@net)) %>">
+  <img class="signin__img" src="<%= Routes.static_path(@conn, "/images/#{String.downcase(@net)}.svg") %>"/>
+  Sign in using <%= @net %>
+</a>

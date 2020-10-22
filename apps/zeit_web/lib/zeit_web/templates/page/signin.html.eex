@@ -1,0 +1,3 @@
+<div class="auth">
+<%= render "button.html", net: "Google", conn: @conn %>
+</div>

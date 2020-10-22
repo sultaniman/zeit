@@ -1,0 +1,34 @@
+<div class="proxies block">
+  <section>
+    <header>
+      <h2>Proxies</h2>
+      <%= if @user.is_admin do %>
+      <span>
+        <%= live_patch "Add proxy +", to: Routes.proxy_index_path(@socket, :new) %>
+      </span>
+      <% end %>
+    </header>
+  </section>
+
+  <%= if @live_action in [:new, :edit] and @user.is_admin do %>
+    <%= live_modal @socket, ZeitWeb.ProxyLive.Form,
+      id: "proxy-form",
+      title: @page_title,
+      action: @live_action,
+      proxy: @proxy,
+      note_text: Strings.note_text(:proxy, @live_action),
+      submit_text: Strings.submit_text(:proxy, @live_action),
+      return_to: Routes.proxy_index_path(@socket, :index),
+      class: "modal modal--create-site" %>
+  <% end %>
+
+
+  <div class="content">
+  <%= for proxy <- @proxies do %>
+    <%= live_component @socket, ZeitWeb.Components.ProxyCard,
+      proxy: proxy,
+      snapshots_count: Proxies.snapshots_count(proxy),
+      used_space: Proxies.used_space(proxy) %>
+  <% end %>
+  </div>
+</div>

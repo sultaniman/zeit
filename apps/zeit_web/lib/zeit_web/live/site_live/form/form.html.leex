@@ -1,0 +1,30 @@
+<%= f = form_for @changeset, "#",
+  id: "site-form",
+  phx_target: @myself,
+  phx_change: "validate",
+  phx_submit: "save" %>
+
+  <div class="zi-fieldset-content modal__content site-form">
+    <h1><%= @title %></h1>
+    <div class="form">
+      <%= hidden_input f, :user_id, value: @user.id %>
+      <div class="form__row">
+        <%= text_input f, :address, class: "form__input zi-input big", placeholder: "Address" %>
+        <%= error_tag f, :address, "alert" %>
+      </div>
+      <div class="form__row">
+        <p class="switch">
+          <span>Is archive?</span>
+          <%= checkbox f, :is_archive %>
+          <%= label f, :is_archive %>
+        </p>
+        <%= error_tag f, :is_archive %>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal__footer zi-fieldset-footer">
+    <p><%= @note_text %></p>
+    <%= submit @submit_text, phx_disable_with: "Saving...", class: "zi-btn mini auto primary" %>
+  </div>
+</form>

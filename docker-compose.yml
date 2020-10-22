@@ -1,0 +1,28 @@
+version: "3"
+services:
+  postgres:
+    image: postgres:12
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=postgres
+    ports:
+      - 5432:5432
+    restart: always
+  zeit:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    env_file: .env
+    ports:
+      - 4001:4000
+    depends_on:
+      - postgres
+    restart: on-failure
+  adminer:
+    image: adminer:4.7.7
+    restart: always
+    ports:
+      - 8181:8080
+    environment:
+      ADMINER_DESIGN: 'pepa-linha'

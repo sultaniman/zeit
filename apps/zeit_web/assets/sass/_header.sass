@@ -1,0 +1,32 @@
+header
+  background: #fff
+  border-bottom: 1px solid #eee
+
+  section
+    display: grid
+    grid-template-columns: 48px 1fr 64px
+    width: 80%
+    margin: 0 auto
+
+    nav[role=img]
+      padding-top: 4px
+      img
+        width: 48px
+
+    nav[role=navigation]
+      padding-top: 4px
+      ul
+        margin-top: 4px
+        li
+          margin-left: 12px
+          display: inline-block
+
+          &::before
+            content: ""
+
+          a
+            font-size: 16px
+
+    nav[role=button]
+      text-align: center
+      padding-top: 12px

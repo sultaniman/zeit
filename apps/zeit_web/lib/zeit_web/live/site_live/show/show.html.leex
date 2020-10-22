@@ -1,0 +1,88 @@
+<div class="site-details">
+  <header class="site-details__header zi-card pin">
+    <h2>
+      <%= live_redirect raw("&larr;"), to: Routes.site_index_path(@socket, :index) %>
+      <%= domain(@site.address) %>
+      <%= if @site.is_archive do %>
+      <span aria-label="Archive mode" data-balloon-pos="up">
+        <img class="site-mode" src="<%= Routes.static_path(@socket, "/images/icons/package-white.svg") %>"/>
+      </span>
+      <% else %>
+      <span aria-label="Monitor mode" data-balloon-pos="up">
+        <img class="site-mode" src="<%= Routes.static_path(@socket, "/images/icons/activity-white.svg") %>"/>
+      </span>
+      <% end %>
+
+      <code>192.132.281.1</code>
+    </h2>
+  </header>
+
+  <div class="report zi-card pin">
+    <table class="zi-table">
+      <thead>
+        <tr>
+          <th>Path</th>
+          <th>Direct</th>
+          <%= for proxy <- @proxies do %>
+          <th data-proxy-id="<%= proxy.id %>"><%= proxy.name %></th>
+          <% end %>
+        </tr>
+      </thead>
+      <tbody>
+        <%= for link <- @links do %>
+        <%= with snapshots <- Links.latest_snapshots(link) do %>
+        <tr>
+          <td>
+            <code><%= nice_path(link.address) %></code>
+          </td>
+          <%= if length(snapshots) == 0 do %>
+          <td colspan="<%= length(@proxies) + 1 %>">
+            N/A
+          </td>
+          <% else %>
+            <%= for snapshot <- snapshots do %>
+            <td data-proxy-id="<%= snapshot.proxy_id %>">
+            <div class="zi-fieldset report__fieldset">
+              <div class="zi-fieldset-content report__fieldset__content">
+                <span class="zi-badge <%= snapshot_status_color(snapshot) %> dot" data-balloon-pos="up">&nbsp;</span>
+                <%= format_bytes(snapshot.size) %> /
+                <span aria-label="<%= Statuses.format(snapshot.http_status) %>" data-balloon-pos="up"><%= snapshot.http_status %></span> /
+                <%= snapshot.request_duration/1000 %>s
+              </div>
+            </div>
+            </td>
+            <% end %>
+          <% end %>
+        </tr>
+        <% end %>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+
+  <%= if @live_action in [:edit] do %>
+    <%= live_modal @socket, ZeitWeb.SiteLive.Form,
+      id: @site.id,
+      title: @page_title,
+      action: @live_action,
+      site: @site,
+      user: @user,
+      note_text: Strings.note_text(:site, @live_action),
+      submit_text: Strings.submit_text(:site, @live_action),
+      return_to: Routes.site_show_path(@socket, :show, @site) %>
+  <% end %>
+
+  <%= if @live_action in [:add_links] do %>
+    <%= live_modal @socket, ZeitWeb.Components.ImportLinksForm,
+      id: @site.id,
+      title: Strings.submit_text(:site, @live_action),
+      action: @live_action,
+      site: @site,
+      site_links: @site_links,
+      user: @user,
+      note_text: Strings.note_text(:site, @live_action),
+      submit_text: Strings.submit_text(:site, @live_action),
+      return_to: Routes.site_index_path(@socket, :index),
+      class: "modal modal--create-site" %>
+  <% end %>
+</div>
