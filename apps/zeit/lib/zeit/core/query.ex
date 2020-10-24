@@ -12,6 +12,7 @@ defmodule Zeit.Schema do
         Proxies,
         Repo,
         Sites,
+        Snapshots,
         Users
       }
 

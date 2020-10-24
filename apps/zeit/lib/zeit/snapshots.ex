@@ -9,6 +9,13 @@ defmodule Zeit.Snapshots do
 
   def get!(id), do: Repo.get!(Snapshot, id)
 
+  def snapshots_at(timestamp, link_id) do
+    Repo.all(
+      from s in Snapshot,
+      where: [link_id: ^link_id, timestamp: ^timestamp]
+    )
+  end
+
   def create(attrs \\ %{}) do
     %Snapshot{}
     |> Snapshot.changeset(attrs)

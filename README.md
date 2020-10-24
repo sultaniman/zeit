@@ -8,16 +8,17 @@
 4. ✅ DB migrations
 5. ✅ Build on linux w/ docker -> artifact,
 6. Deployment
-   1. rds database
-   2. ec2 instance
-   3. r53
-   4. domain
-   5. certs
-   6. nginx
-7. Scanners
-8. ✅ Manually handle redirects
-9. ✅ Use automatic retries
-10. ✅ Snapshots contain error field
+   1. ✅ rds database
+   2. ✅ domain
+   3. ✅ certs
+   4. ✅ nginx
+7. ✅ Manually handle redirects
+8. ✅ Use automatic retries
+9.  ✅ Snapshots contain error field
+10. Scanners
+    1.  ns lookups
+    2.  traceroute
+    3.  ping
 
 ## Network utils
 

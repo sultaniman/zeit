@@ -46,6 +46,13 @@ defmodule ZeitWeb.SiteLive.Index do
     |> assign(:site_links, SiteLinks.changeset(%{site_id: id, links: []}))
   end
 
+  defp apply_action(socket, :diff, %{"id" => id}) do
+    socket
+    |> assign(:page_title, "Listing Sites")
+    |> assign(:site, Sites.get!(id))
+    |> assign(:site_links, SiteLinks.changeset(%{site_id: id, links: []}))
+  end
+
   @impl true
   def handle_event("delete", %{"id" => id}, socket) do
     site = Sites.get!(id)

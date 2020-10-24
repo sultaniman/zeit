@@ -62,10 +62,7 @@ defmodule Zeit.Links do
     case Repo.one(query) do
       nil -> []
       %Snapshot{timestamp: timestamp} ->
-        Repo.all(
-          from s in Snapshot,
-          where: [link_id: ^link.id, timestamp: ^timestamp]
-        )
+        Snapshots.snapshots_at(timestamp, link.id)
     end
   end
 

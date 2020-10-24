@@ -22,6 +22,7 @@
       <thead>
         <tr>
           <th>Path</th>
+          <th>&nbsp;</th>
           <th>Direct</th>
           <%= for proxy <- @proxies do %>
           <th data-proxy-id="<%= proxy.id %>"><%= proxy.name %></th>
@@ -32,14 +33,21 @@
         <%= for link <- @links do %>
         <%= with snapshots <- Links.latest_snapshots(link) do %>
         <tr>
-          <td>
+          <td class="report__link">
             <code><%= nice_path(link.address) %></code>
           </td>
           <%= if length(snapshots) == 0 do %>
-          <td colspan="<%= length(@proxies) + 1 %>">
+          <td colspan="<%= length(@proxies) + 2 %>">
             N/A
           </td>
           <% else %>
+            <td style="width: 62px">
+            <%= live_patch to: Routes.site_show_path(@socket, :diff, @site, link.id, Enum.at(snapshots, 0).timestamp) do %>
+              <button class="zi-btn mini primary ghost compare">
+                show diff
+              </button>
+            <% end %>
+            </td>
             <%= for snapshot <- snapshots do %>
             <td data-proxy-id="<%= snapshot.proxy_id %>">
             <div class="zi-fieldset report__fieldset">
@@ -84,5 +92,17 @@
       submit_text: Strings.submit_text(:site, @live_action),
       return_to: Routes.site_index_path(@socket, :index),
       class: "modal modal--create-site" %>
+  <% end %>
+
+  <%= if @live_action in [:diff] do %>
+    <%= live_modal @socket, ZeitWeb.Components.Diff,
+      id: @site.id,
+      link: @link,
+      proxies: @proxies,
+      direct: @direct,
+      other: Enum.at(@over_proxy, 0),
+      over_proxy: @over_proxy,
+      return_to: Routes.site_show_path(@socket, :show, @site),
+      class: "modal modal--diff" %>
   <% end %>
 </div>

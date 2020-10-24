@@ -17,6 +17,7 @@ defmodule ZeitWeb.Components.ProxyCard do
         <%= @proxy.address %>
       </div>
 
+      <%= if @user.is_admin do %>
       <div class="card__controls">
         <span class="card__edit">
           <%= live_patch to: Routes.proxy_index_path(@socket, :edit, @proxy) do %>
@@ -29,6 +30,7 @@ defmodule ZeitWeb.Components.ProxyCard do
           <% end %>
         </span>
       </div>
+      <% end %>
     </div>
     """
   end

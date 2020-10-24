@@ -31,6 +31,9 @@
         </nav>
         <nav role="button">
           <img class="zi-avatar square" src="<%= Routes.static_path(@conn, "/images/avatar.png") %>">
+          <%= link to: Routes.auth_path(@conn, :logout), class: "logout" do %>
+            <img src="<%= Routes.static_path(@conn, "/images/icons/logout-white.svg") %>"/>
+          <% end %>
         </nav>
       </section>
     </header>

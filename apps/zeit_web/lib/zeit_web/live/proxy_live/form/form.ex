@@ -30,7 +30,6 @@ defmodule ZeitWeb.ProxyLive.Form do
   end
 
   defp save_proxy(socket, :edit, params) do
-    IO.inspect(socket.assigns)
     case Proxies.update(socket.assigns.proxy, params) do
       {:ok, _proxy} ->
         {:noreply,

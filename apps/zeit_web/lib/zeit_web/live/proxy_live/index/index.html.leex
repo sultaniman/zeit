@@ -27,6 +27,7 @@
   <%= for proxy <- @proxies do %>
     <%= live_component @socket, ZeitWeb.Components.ProxyCard,
       proxy: proxy,
+      user: @user,
       snapshots_count: Proxies.snapshots_count(proxy),
       used_space: Proxies.used_space(proxy) %>
   <% end %>
