@@ -56,14 +56,15 @@ config :ueberauth, Ueberauth.Strategy.Google.OAuth,
 config :discovery, Discovery.Scheduler,
   timezone: :utc,
   jobs: [
+    # Schedules
+    # */1 * * * * every minute
+    # */5 * * * * every 5 minutes
+    # */15 * * * * every 15 minutes
+    # 0 * * * * every hour
     # Hourly
-    {"0 * * * *", {Discovery.Pipeline, :run, []}}
-
-    # Every 5 minutes
+    {"0 * * * *", {Discovery.Pipeline, :run, []}},
     # {"*/5 * * * *", {Discovery.Pipeline, :run, []}}
-
-    # Every 15 minutes
-    # {"*/15 * * * *", {Discovery.Pipeline.Network, :run, []}}
+    {"0 * * * *", {Discovery.Pipeline.Lookups, :run, []}}
   ]
 
 # Describes ETL stages

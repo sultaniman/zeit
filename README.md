@@ -21,9 +21,9 @@
     2. ✅ Sizes
     3. ✅ Durations
 12. Scanners
-    1.  ns lookups
-    2.  traceroute
-    3.  ping
+    1. ✅ ns lookups
+    2. traceroute
+    3. ping
 
 ## Network utils
 

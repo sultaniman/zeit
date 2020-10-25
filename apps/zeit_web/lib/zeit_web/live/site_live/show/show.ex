@@ -6,6 +6,7 @@ defmodule ZeitWeb.SiteLive.Show do
 
   alias Zeit.{
     Links,
+    Lookups,
     Proxies,
     Sites,
     Snapshots

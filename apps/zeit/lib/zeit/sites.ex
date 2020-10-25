@@ -64,6 +64,10 @@ defmodule Zeit.Sites do
     )
   end
 
+  def stream(chunk_size) do
+    Repo.flow_stream(Site, chunk_size: chunk_size)
+  end
+
   def stream_links(site, chunk_size) do
     query = (
       from l in Link,

@@ -9,6 +9,7 @@ defmodule Zeit.Schema do
       alias Zeit.{
         Events,
         Links,
+        Lookups,
         Proxies,
         Repo,
         Sites,
@@ -18,6 +19,7 @@ defmodule Zeit.Schema do
 
       alias Zeit.Events.Event
       alias Zeit.Links.Link
+      alias Zeit.Lookups.Lookup
       alias Zeit.Proxies.Proxy
       alias Zeit.Sites.Site
       alias Zeit.Sites.SiteProxy

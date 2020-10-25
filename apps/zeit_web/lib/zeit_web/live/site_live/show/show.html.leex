@@ -12,8 +12,14 @@
         <img class="site-mode" src="<%= Routes.static_path(@socket, "/images/icons/activity-white.svg") %>"/>
       </span>
       <% end %>
-
-      <code>192.132.281.1</code>
+      <% lookup = Lookups.latest_for_site(@site) %>
+      <code>
+        <%= if lookup do %>
+          <%= lookup.inet_address %>
+        <% else %>
+          ...
+        <% end %>
+      </code>
     </h2>
   </header>
 
