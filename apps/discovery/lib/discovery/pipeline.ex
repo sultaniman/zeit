@@ -10,29 +10,33 @@ defmodule Discovery.Pipeline do
   }
 
   alias Zeit.{Links, Repo}
+  @batch_size 100
 
   # Scheduled target
   def run do
     Logger.notice("Process all links")
-    run(Links.stream(100))
+
+    @batch_size
+    |> Links.stream()
+    |> run()
   end
 
   # Can be used on-demand
   def run(enumerable_stream) do
     proxies = Helpers.get_proxies()
     timestamp = DateTime.to_unix(DateTime.utc_now())
-    window = Flow.Window.count(100)
+    window = Flow.Window.count(@batch_size)
 
     Repo.transaction(fn ->
       enumerable_stream
-      |> Flow.from_enumerable(max_demand: 100)
+      |> Flow.from_enumerable(max_demand: @batch_size)
       |> Flow.partition(max_demand: 10, stages: 20)
       # each link to [%Box{}...]
       |> Flow.map(&box(&1, proxies, timestamp))
       # now we have [%Result{}...]
-      |> Flow.partition(window: window, stages: 1)
-      |> Flow.map(&Request.run/1)
       |> Flow.partition(max_demand: 10, stages: 20)
+      |> Flow.map(&Request.run/1)
+      |> Flow.partition(window: window, stages: 1)
       |> Flow.map(&Persist.run/1)
       |> Flow.run()
     end)

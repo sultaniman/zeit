@@ -1,5 +1,6 @@
 defmodule ZeitWeb.Components.Diff do
   use ZeitWeb, :live_component
+  alias ZeitWeb.{Differ, Statuses}
 
   @impl true
   def render(assigns) do
@@ -19,12 +20,29 @@ defmodule ZeitWeb.Components.Diff do
       </h4>
 
       <div class="diff__viewer">
-      <%= for [mode, header, first, second] <- calculate_diff(@direct, @other) do %>
+      <%= for [mode, header, first, second] <- Differ.calculate_diff(@direct, @other, @proxies) do %>
         <div class="<%= mode %> diffs">
-        <span class="diffs__header"><%= header %></span>
-        <span><%= first %></span>
-        <span><%= second %></span>
+          <span class="diffs__header"><%= header %></span>
+          <span class="diffs__first"><%= first %></span>
+          <span class="diffs__second"><%= second %></span>
         </div>
+        <%= if String.downcase(header) == "headers" do %>
+        <div class="diffs diffs--report">
+          <span class="diffs__header">&nbsp;</span>
+          <span class="diffs__first report report--packed">
+            <span class="zi-badge <%= snapshot_status_color(@direct) %> dot" data-balloon-pos="up">&nbsp;</span>
+            <%= format_bytes(@direct.size) %> /
+            <span aria-label="<%= Statuses.format(@direct.http_status) %>" data-balloon-pos="up"><%= @direct.http_status %></span> /
+            <%= @direct.request_duration/1000 %>s
+          </span>
+          <span class="diffs__second report report--packed">
+            <span class="zi-badge <%= snapshot_status_color(@direct) %> dot" data-balloon-pos="up">&nbsp;</span>
+            <%= format_bytes(@other.size) %> /
+            <span aria-label="<%= Statuses.format(@other.http_status) %>" data-balloon-pos="up"><%= @other.http_status %></span> /
+            <%= @other.request_duration/1000 %>s
+          </span>
+        </div>
+        <% end %>
       <% end %>
       </div>
     </div>
@@ -49,37 +67,5 @@ defmodule ZeitWeb.Components.Diff do
       socket
       |> assign(:other, other)
     }
-  end
-
-  defp calculate_diff(%{http_headers: first}, %{http_headers: second}) do
-    first
-    |> extract_headers(second)
-    |> Enum.map(fn h ->
-      if first[h] != second[h] do
-        [:different, cap_header(h), first[h], second[h]]
-      else
-        [:similar, cap_header(h), first[h], second[h]]
-      end
-    end)
-  end
-
-  defp extract_headers(first, second) do
-    original_keys =
-      first
-      |> Map.keys()
-
-    other_keys=
-      second
-      |> Map.keys()
-      |> Enum.reject(&Enum.member?(original_keys, &1))
-
-    original_keys ++ other_keys
-  end
-
-  defp cap_header(header) do
-    header
-    |> String.split("-")
-    |> Enum.map(&String.capitalize(&1))
-    |> Enum.join("-")
   end
 end

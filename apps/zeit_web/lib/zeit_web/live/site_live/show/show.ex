@@ -2,7 +2,6 @@ defmodule ZeitWeb.SiteLive.Show do
   @moduledoc false
   use ZeitWeb, :live_view
 
-  alias Size
   alias ZeitWeb.Statuses
 
   alias Zeit.{

@@ -56,9 +56,13 @@ config :ueberauth, Ueberauth.Strategy.Google.OAuth,
 config :discovery, Discovery.Scheduler,
   timezone: :utc,
   jobs: [
+    # Hourly
     {"0 * * * *", {Discovery.Pipeline, :run, []}}
+
+    # Every 5 minutes
     # {"*/5 * * * *", {Discovery.Pipeline, :run, []}}
-    # Hourly {"0 * * * *", {Discovery.Pipeline, :run, []}}
+
+    # Every 15 minutes
     # {"*/15 * * * *", {Discovery.Pipeline.Network, :run, []}}
   ]
 

@@ -15,7 +15,12 @@
 7. ✅ Manually handle redirects
 8. ✅ Use automatic retries
 9.  ✅ Snapshots contain error field
-10. Scanners
+10. ✅ Diff viewer
+11. Diff viewer more details
+    1. ✅ Statuses
+    2. ✅ Sizes
+    3. ✅ Durations
+12. Scanners
     1.  ns lookups
     2.  traceroute
     3.  ping

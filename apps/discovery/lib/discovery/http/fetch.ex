@@ -18,7 +18,7 @@ defmodule Discovery.Fetch do
       after
         {:ok, result} -> result
       else
-        {:error, error} -> error
+        {:error, result} -> result
       end
 
     %Result{

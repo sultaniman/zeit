@@ -2,7 +2,7 @@
   &__viewer
     border: 1px solid #eee
     border-radius: 2px
-    padding: 2px 0
+    padding: 0
 
   &__selector
     display: inline-block
@@ -17,14 +17,31 @@
 .diffs
   display: grid
   grid-template-columns: 1fr 2fr 2fr
-  margin-bottom: 4px !important
+  margin-bottom: 0 !important
   padding: 2px 4px 4px 4px
   font-family: monospace
+
+  &--report
+    background: #e4f0f7
+
+  &:first-child
+    background: #eee
+    padding: 10px 5px
+    text-transform: uppercase
+
+    >span
+      font-weight: 700
 
   &__header
     text-transform: uppercase
     font-weight: bold
     color: #444
+
+  &__first,
+  &__second
+    margin-left: 5px
+    word-break: break-word
+    word-wrap: break-word
 
 .different
   background: #fdb8c0
