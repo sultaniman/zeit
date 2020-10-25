@@ -14,7 +14,11 @@ defmodule ZeitWeb.Components.ProxyCard do
       </div>
 
       <div class="proxy__address">
-        <%= @proxy.address %>
+        <%= if @user.is_admin do %>
+          <%= @proxy.address %>
+        <% else %>
+          <%= String.duplicate("#", length(@proxy.address)) %>
+        <% end %>
       </div>
 
       <%= if @user.is_admin do %>
