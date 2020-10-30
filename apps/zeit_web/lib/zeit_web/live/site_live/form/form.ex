@@ -1,8 +1,11 @@
 defmodule ZeitWeb.SiteLive.Form do
   use ZeitWeb, :live_component
 
-  alias Zeit.Sites
-  alias Zeit.Links
+  alias Zeit.{
+    Events,
+    Links,
+    Sites
+  }
 
   @impl true
   def update(%{site: site} = assigns, socket) do
@@ -33,11 +36,20 @@ defmodule ZeitWeb.SiteLive.Form do
 
   defp save_site(socket, :edit, site_params) do
     case Sites.update(socket.assigns.site, site_params) do
-      {:ok, _site} ->
-        {:noreply,
-         socket
-         |> put_flash(:info, "Site updated successfully")
-         |> push_redirect(to: socket.assigns.return_to)}
+      {:ok, site} ->
+        Events.create(%{
+          type: "site:update",
+          ref: site.id,
+          owner: socket.assigns.user.id,
+          data: site_params
+        })
+
+        {
+          :noreply,
+          socket
+          |> put_flash(:info, "Site updated successfully")
+          |> push_redirect(to: socket.assigns.return_to)
+        }
 
       {:error, %Ecto.Changeset{} = changeset} ->
         {:noreply, assign(socket, :changeset, changeset)}
@@ -51,6 +63,14 @@ defmodule ZeitWeb.SiteLive.Form do
         # because we assume that the default index is
         # the actual given site address
         Links.create(%{address: site.address, site_id: site.id})
+
+        # Create event log
+        Events.create(%{
+          type: "site:create",
+          ref: site.id,
+          owner: socket.assigns.user.id,
+          data: site_params
+        })
 
         {
           :noreply,

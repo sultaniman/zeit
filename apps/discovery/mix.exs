@@ -33,6 +33,8 @@ defmodule Discovery.MixProject do
       {:quantum, "~> 3.3"},
       {:timex, "~> 3.6"},
       {:gen_stage, "~> 1.0", override: true},
+      {:gen_icmp, github: "msantos/gen_icmp"},
+      {:procket, github: "msantos/procket", override: true},
 
       # AWS
       {:ex_aws, "~> 2.1"},
