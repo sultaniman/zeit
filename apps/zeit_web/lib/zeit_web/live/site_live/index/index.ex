@@ -2,8 +2,12 @@ defmodule ZeitWeb.SiteLive.Index do
   use ZeitWeb, :live_view
 
   alias Zeit.{Events, Sites}
-  alias Zeit.Sites.Site
-  alias Zeit.Sites.SiteLinks
+  alias Zeit.Sites.{
+    Site,
+    SiteLinks,
+    SiteList
+  }
+
   alias ZeitWeb.Strings
 
   @impl true
@@ -39,16 +43,22 @@ defmodule ZeitWeb.SiteLive.Index do
     |> assign(:site, nil)
   end
 
+  defp apply_action(socket, :import_sites, _params) do
+    socket
+    |> assign(:page_title, "Import Sites")
+    |> assign(:site_list, SiteList.changeset(%{enforce_https: true, sites: ""}))
+  end
+
   defp apply_action(socket, :add_links, %{"id" => id}) do
     socket
-    |> assign(:page_title, "Listing Sites")
+    |> assign(:page_title, "Add Links")
     |> assign(:site, Sites.get!(id))
     |> assign(:site_links, SiteLinks.changeset(%{site_id: id, links: []}))
   end
 
   defp apply_action(socket, :diff, %{"id" => id}) do
     socket
-    |> assign(:page_title, "Listing Sites")
+    |> assign(:page_title, "Diff Site")
     |> assign(:site, Sites.get!(id))
     |> assign(:site_links, SiteLinks.changeset(%{site_id: id, links: []}))
   end

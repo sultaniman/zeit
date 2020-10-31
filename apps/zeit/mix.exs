@@ -35,6 +35,7 @@ defmodule Zeit.MixProject do
       {:postgrex, ">= 0.0.0"},
       {:jason, "~> 1.0"},
       {:size, "~> 0.1.0"},
+      {:timex, "~> 3.6"},
     ]
   end
 

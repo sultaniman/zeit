@@ -33,6 +33,7 @@ defmodule ZeitWeb.Router do
 
     live "/sites", SiteLive.Index, :index
     live "/sites/new", SiteLive.Index, :new
+    live "/sites/import", SiteLive.Index, :import_sites
     live "/sites/:id/edit", SiteLive.Index, :edit
     live "/sites/:id/add-links", SiteLive.Index, :add_links
 

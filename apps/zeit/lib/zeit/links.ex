@@ -51,16 +51,17 @@ defmodule Zeit.Links do
   for given link with that timestamp.
   """
   def latest_snapshots(%Link{} = link) do
-    query = (
+    query =
       from s in Snapshot,
-      select: [:timestamp],
-      where: s.link_id == ^link.id,
-      order_by: [desc: :timestamp],
-      limit: 1
-    )
+        select: [:timestamp],
+        where: s.link_id == ^link.id,
+        order_by: [desc: :timestamp],
+        limit: 1
 
     case Repo.one(query) do
-      nil -> []
+      nil ->
+        []
+
       %Snapshot{timestamp: timestamp} ->
         Snapshots.snapshots_at(timestamp, link.id)
     end

@@ -25,7 +25,7 @@ defmodule Zeit.Validators.ValidateLinks do
     end
   end
 
-  defp valid_link?(link) do
+  def valid_link?(link) do
     if String.trim(link) == "" do
       false
     else
