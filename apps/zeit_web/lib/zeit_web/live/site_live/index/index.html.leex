@@ -4,7 +4,8 @@
       <h2>My Sites</h2>
       <span class="sites__controls">
         <%= live_patch "New Site +", to: Routes.site_index_path(@socket, :new) %> |
-        <%= live_patch "Import sites", to: Routes.site_index_path(@socket, :import_sites) %>
+        <%= live_patch "Import sites", to: Routes.site_index_path(@socket, :import_sites) %> |
+        <%= live_patch "Report", to: Routes.report_index_path(@socket, :index) %>
       </span>
     </header>
   </section>

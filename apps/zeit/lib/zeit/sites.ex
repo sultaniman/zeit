@@ -9,6 +9,13 @@ defmodule Zeit.Sites do
     Repo.all(Site)
   end
 
+  def get_by_user(user) do
+    Repo.all(
+      from s in Site,
+      where: s.user_id == ^user.id
+    )
+  end
+
   def get!(id), do: Repo.get!(Site, id)
 
   def create(attrs \\ %{}) do

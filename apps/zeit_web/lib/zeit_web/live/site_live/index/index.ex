@@ -15,7 +15,7 @@ defmodule ZeitWeb.SiteLive.Index do
     {
       :ok,
       socket
-      |> assign(:sites, Sites.list())
+      |> assign(:sites, Sites.get_by_user(user))
       |> assign(:user, user)
     }
   end

@@ -1,0 +1,70 @@
+<div class="site-details">
+  <header class="site-details__header zi-card pin">
+    <h2>Problem report</h2>
+  </header>
+
+  <div class="report zi-card pin">
+    <table class="zi-table">
+      <thead>
+        <tr>
+          <th>Path</th>
+          <th>&nbsp;</th>
+          <th>Direct</th>
+          <%= for proxy <- @proxies do %>
+          <th data-proxy-id="<%= proxy.id %>"><%= proxy.name %></th>
+          <% end %>
+        </tr>
+      </thead>
+      <tbody>
+        <%= for rep <- @report do %>
+        <tr>
+          <td class="report__link">
+            <code><%= domain(rep.site.address)%></code>
+          </td>
+          <%= if length(rep.snapshots) == 0 do %>
+          <td colspan="<%= length(@proxies) + 2 %>">
+            N/A
+          </td>
+          <% else %>
+            <td style="width: 62px">
+            <%= live_patch to: Routes.site_show_path(@socket, :diff, rep.site, rep.site.id, Enum.at(rep.snapshots, 0).timestamp) do %>
+              <button class="zi-btn mini primary ghost compare">
+                show diff
+              </button>
+            <% end %>
+            </td>
+            <%= for snapshot <- rep.snapshots do %>
+            <td data-proxy-id="<%= snapshot.proxy_id %>">
+            <div class="zi-fieldset report__fieldset">
+              <div class="zi-fieldset-content report__fieldset__content">
+                <span class="zi-badge <%= snapshot_status_color(snapshot) %> dot" data-balloon-pos="up">&nbsp;</span>
+                <%= format_bytes(snapshot.size) %> /
+                <span aria-label="<%= Statuses.format(snapshot.http_status) %>" data-balloon-pos="up"><%= snapshot.http_status || "N/A" %></span> /
+                <%= snapshot.request_duration/1000 %>s
+              </div>
+
+              <div class="zi-fieldset-content report__fieldset__content report__fieldset__content--fixed">
+                <%= get_error(snapshot.error) %>
+              </div>
+            </div>
+            </td>
+            <% end %>
+          <% end %>
+        </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+
+  <%= if @live_action in [:diff] do %>
+    <%= live_modal @socket, ZeitWeb.Components.Diff,
+      id: @site.id,
+      link: @link,
+      proxies: @proxies,
+      direct: @direct,
+      other: Enum.at(@over_proxy, 0),
+      over_proxy: @over_proxy,
+      return_to: Routes.site_show_path(@socket, :show, @site),
+      class: "modal modal--diff" %>
+  <% end %>
+</div>
