@@ -3,7 +3,7 @@ defmodule Discovery.Request do
   alias Discovery.Fetch
 
   # 15s
-  @default_timeout 15000
+  @default_timeout 30_000
 
   def run(boxes) do
     boxes

@@ -4,7 +4,6 @@ defmodule ZeitWeb.Components.ImportSitesForm do
   import Ecto.Changeset, only: [get_field: 3]
   alias Zeit.Sites
   alias Zeit.Sites.SiteList
-  alias Zeit.Validators.ValidateLinks
 
   @impl true
   def render(assigns) do
@@ -13,7 +12,6 @@ defmodule ZeitWeb.Components.ImportSitesForm do
       id: "site-form",
       phx_target: @myself,
       phx_submit: "save" %>
-    <%= inspect(@site_list) %>
       <div class="zi-fieldset-content modal__content site-form">
         <h1><%= @title %></h1>
         <div class="site-form__form">

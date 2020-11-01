@@ -74,6 +74,7 @@ defmodule ZeitWeb.Statuses do
     "599" => "Network Connect Timeout Error",
   }
 
+  def format(nil), do: "Unknown"
   def format(status) do
     status = to_string(status)
     [

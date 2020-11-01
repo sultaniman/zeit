@@ -60,7 +60,7 @@
               <div class="zi-fieldset-content report__fieldset__content">
                 <span class="zi-badge <%= snapshot_status_color(snapshot) %> dot" data-balloon-pos="up">&nbsp;</span>
                 <%= format_bytes(snapshot.size) %> /
-                <span aria-label="<%= Statuses.format(snapshot.http_status) %>" data-balloon-pos="up"><%= snapshot.http_status %></span> /
+                <span aria-label="<%= Statuses.format(snapshot.http_status) %>" data-balloon-pos="up"><%= snapshot.http_status || "N/A" %></span> /
                 <%= snapshot.request_duration/1000 %>s
               </div>
             </div>

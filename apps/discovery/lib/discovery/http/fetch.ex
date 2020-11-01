@@ -2,7 +2,12 @@ defmodule Discovery.Fetch do
   @moduledoc false
   require Logger
   use Retry
-  alias Discovery.{Box, Result, Helpers}
+  alias Discovery.{
+    Box,
+    Errors,
+    Result,
+    Helpers
+  }
 
   @max_redirects 2
   @wait_before_retry 1_000
@@ -48,7 +53,7 @@ defmodule Discovery.Fetch do
         end
 
       {:error, %HTTPoison.Error{reason: reason}} ->
-        {:error, %Result{error: Jason.encode!(reason)}}
+        {:error, %Result{error: [Errors.handle_error(reason), ", link=", link] |> to_string()}}
     end
   end
 
