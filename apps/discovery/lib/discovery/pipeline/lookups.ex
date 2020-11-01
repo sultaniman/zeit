@@ -37,6 +37,7 @@ defmodule Discovery.Pipeline.Lookups do
 
   def lookup(site) do
     uri = URI.parse(site.address)
+
     case :inet_res.gethostbyname(to_charlist(uri.host), :inet) do
       {:ok, {:hostent, _, _, _, _, ip_list}} ->
         {site, get_ips(ip_list)}

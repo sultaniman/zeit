@@ -12,7 +12,7 @@ defmodule Zeit.Sites do
   def get_by_user(user) do
     Repo.all(
       from s in Site,
-      where: s.user_id == ^user.id
+        where: s.user_id == ^user.id
     )
   end
 
@@ -32,6 +32,7 @@ defmodule Zeit.Sites do
 
     from_moment = Timex.Duration.from_seconds(5)
     moment = Timex.subtract(moment, from_moment)
+
     created_sites =
       from s in Site,
         where: s.user_id == ^user_id and s.inserted_at >= ^moment

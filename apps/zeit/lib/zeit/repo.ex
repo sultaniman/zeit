@@ -9,6 +9,7 @@ defmodule Zeit.Repo do
 
   def init(_type, config) do
     database_url = System.get_env("DATABASE_URL")
+
     if database_url == nil do
       Logger.debug("$DATABASE_URL not set, using config")
       {:ok, config}

@@ -71,17 +71,20 @@ defmodule ZeitWeb.Statuses do
     "508" => "Loop Detected",
     "510" => "Not Extended",
     "511" => "Network Authentication Required",
-    "599" => "Network Connect Timeout Error",
+    "599" => "Network Connect Timeout Error"
   }
 
   def format(nil), do: "Unknown"
+
   def format(status) do
     status = to_string(status)
+
     [
       "HTTP/",
       status,
       " ",
       Map.get(@statuses, status)
-    ] |> to_string()
+    ]
+    |> to_string()
   end
 end

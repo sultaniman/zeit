@@ -28,22 +28,23 @@ defmodule Zeit.Proxies do
     Proxy.changeset(proxy, attrs)
   end
 
-
   def snapshots_count(proxy) do
     Repo.one(
       from s in Snapshot,
-      select: count(s.id),
-      where: s.proxy_id == ^proxy.id
+        select: count(s.id),
+        where: s.proxy_id == ^proxy.id
     )
   end
 
   def used_space(proxy) do
     alternative_symbols = ~w(bytes Kb Mb Gb Tb Pb)
-    size = Repo.one(
-      from s in Snapshot,
-      select: sum(s.size),
-      where: s.proxy_id == ^proxy.id
-    )
+
+    size =
+      Repo.one(
+        from s in Snapshot,
+          select: sum(s.size),
+          where: s.proxy_id == ^proxy.id
+      )
 
     Size.humanize!(
       size || 0,

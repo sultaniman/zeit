@@ -37,8 +37,12 @@ defmodule Zeit.Snapshots.Snapshot do
 
   @doc false
   def changeset(%Snapshot{} = snapshot, attrs) do
-    fields = ~w(path link_id site_id proxy_id http_status http_headers timestamp request_duration retries error)a
-    required_fields = ~w(path link_id site_id http_status http_headers timestamp request_duration retries error)a
+    fields =
+      ~w(path link_id site_id proxy_id http_status http_headers timestamp request_duration retries error)a
+
+    required_fields =
+      ~w(path link_id site_id http_status http_headers timestamp request_duration retries error)a
+
     snapshot
     |> cast(attrs, fields)
     |> validate_required(required_fields)

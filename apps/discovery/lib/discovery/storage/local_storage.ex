@@ -2,6 +2,7 @@ defmodule Discovery.LocalStorage do
   @moduledoc false
   def upload(path, data) do
     ensure_directory(path)
+
     case File.write(path, data, [:raw, :binary]) do
       :ok -> {:ok, path}
       {:error, reason} -> {:error, reason}

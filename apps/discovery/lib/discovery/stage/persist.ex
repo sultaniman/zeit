@@ -31,11 +31,16 @@ defmodule Discovery.Persist do
   * For requests with proxies - "site=ae/link=ba/ts=123/proxy=ee.gz"
   """
   def make_filename(%Box{link: link} = box) do
-    base_path = to_string([
-      "site=", to_string(link.site_id),
-      "/link=", to_string(link.id),
-      "/ts=", to_string(box.timestamp)
-    ])
+    base_path =
+      to_string([
+        "site=",
+        to_string(link.site_id),
+        "/link=",
+        to_string(link.id),
+        "/ts=",
+        to_string(box.timestamp)
+      ])
+
     if box.proxy do
       to_string([base_path, "/proxy=", to_string(box.proxy.id), ".gz"])
     else

@@ -10,7 +10,10 @@ defmodule ZeitWeb.Strings do
   def note_text(:site, :new), do: "Sites are not enabled by default"
   def note_text(:site, :add_links), do: "Each link will be validated, invalid links are skipped"
   def note_text(:proxy, :edit), do: "NOTE: if address changes then old data will not be relevant"
-  def note_text(:proxy, :new), do: "Proxies are available for all users and admins can manage them"
+
+  def note_text(:proxy, :new),
+    do: "Proxies are available for all users and admins can manage them"
+
   def note_text(_, _), do: ""
 
   def submit_text(:site, :edit), do: "Save site"

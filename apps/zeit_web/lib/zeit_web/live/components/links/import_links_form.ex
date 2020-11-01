@@ -44,6 +44,7 @@ defmodule ZeitWeb.Components.ImportLinksForm do
   @impl true
   def handle_event("save", %{"site_links" => %{"links" => links}}, socket) do
     site = socket.assigns.site
+
     {valid_links, invalid_links} =
       links
       |> String.split(["\n", "\r\n"], trim: true)
@@ -57,7 +58,10 @@ defmodule ZeitWeb.Components.ImportLinksForm do
     {
       :noreply,
       socket
-      |> put_flash(:info, "#{length(valid_links)} links created, #{length(invalid_links)} links skipped")
+      |> put_flash(
+        :info,
+        "#{length(valid_links)} links created, #{length(invalid_links)} links skipped"
+      )
       |> push_redirect(to: socket.assigns.return_to)
     }
   end

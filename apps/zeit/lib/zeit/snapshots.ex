@@ -43,10 +43,13 @@ defmodule Zeit.Snapshots do
       %{timestamp: ts, link_id: lid} ->
         %Report{
           site: site,
-          snapshots: Repo.all(
-            from s in Snapshot,
-              where: s.link_id == ^lid and s.timestamp == ^ts and (s.http_status >= 400 or is_nil(s.http_status))
-          )
+          snapshots:
+            Repo.all(
+              from s in Snapshot,
+                where:
+                  s.link_id == ^lid and s.timestamp == ^ts and
+                    (s.http_status >= 400 or is_nil(s.http_status))
+            )
         }
     end
   end

@@ -23,7 +23,6 @@ defmodule ZeitWeb.ProxyLive.Form do
     {:noreply, assign(socket, :changeset, changeset)}
   end
 
-
   @impl true
   def handle_event("save", %{"proxy" => params}, socket) do
     save_proxy(socket, socket.assigns.action, params)

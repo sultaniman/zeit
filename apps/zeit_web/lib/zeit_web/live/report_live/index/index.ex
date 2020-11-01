@@ -22,12 +22,21 @@ defmodule ZeitWeb.ReportLive.Index do
   end
 
   def get_error(nil), do: ""
+
   def get_error(error) do
     cond do
-      String.contains?(error, "certificate_expired") -> "Certificate expired"
-      String.contains?(error, "handshake_failure") -> "Handshake error"
-      String.contains?(error, "bad_certificate") -> "Bad certificate"
-      true -> error
+      String.contains?(error, "certificate_expired") ->
+        "Certificate expired"
+
+      String.contains?(error, "handshake_failure") ->
+        "Handshake error"
+
+      String.contains?(error, "bad_certificate") ->
+        "Bad certificate"
+
+      true ->
+        [first, _] = String.split(error, ",")
+        first
     end
   end
 

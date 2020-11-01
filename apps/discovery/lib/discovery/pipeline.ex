@@ -47,6 +47,7 @@ defmodule Discovery.Pipeline do
   """
   def box(link, proxies, timestamp) do
     pool = [hackney: [pool: :fetcher]]
+
     make_box = fn [proxy, config] ->
       %Box{
         timestamp: timestamp,
@@ -62,7 +63,8 @@ defmodule Discovery.Pipeline do
         link: link,
         proxy: nil,
         config: pool
-      } | Enum.map(proxies, make_box)
+      }
+      | Enum.map(proxies, make_box)
     ]
   end
 end

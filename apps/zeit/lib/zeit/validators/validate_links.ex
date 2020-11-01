@@ -2,6 +2,7 @@ defmodule Zeit.Validators.ValidateLinks do
   @moduledoc false
   def validate(links, address) do
     %URI{host: host} = URI.parse(address)
+
     validated =
       links
       |> Enum.map(&validate_link(&1, host))
@@ -10,7 +11,6 @@ defmodule Zeit.Validators.ValidateLinks do
       validated
       |> Enum.filter(fn x -> elem(x, 0) == :valid end)
       |> Keyword.values(),
-
       validated
       |> Enum.filter(fn x -> elem(x, 0) == :invalid end)
       |> Keyword.values()
@@ -39,6 +39,7 @@ defmodule Zeit.Validators.ValidateLinks do
 
   defp validate_domain(url, host) do
     uri = URI.parse(url)
+
     if uri.host == host do
       {:valid, url}
     else

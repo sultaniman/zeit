@@ -54,13 +54,14 @@ defmodule ZeitWeb.Components.Diff do
 
   @impl true
   def handle_event(
-    "select-other",
-    %{"proxy_id" => proxy_id},
-    %{assigns: %{over_proxy: over_proxy}}= socket
-  ) do
-    other = Enum.find(over_proxy, fn s ->
-      s.proxy_id == proxy_id
-    end)
+        "select-other",
+        %{"proxy_id" => proxy_id},
+        %{assigns: %{over_proxy: over_proxy}} = socket
+      ) do
+    other =
+      Enum.find(over_proxy, fn s ->
+        s.proxy_id == proxy_id
+      end)
 
     {
       :noreply,

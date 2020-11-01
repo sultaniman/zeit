@@ -2,6 +2,7 @@ defmodule ZeitWeb.SiteLive.Index do
   use ZeitWeb, :live_view
 
   alias Zeit.{Events, Sites}
+
   alias Zeit.Sites.{
     Site,
     SiteLinks,
@@ -67,6 +68,7 @@ defmodule ZeitWeb.SiteLive.Index do
   def handle_event("delete", %{"id" => id}, socket) do
     site = Sites.get!(id)
     {:ok, _} = Sites.delete(site)
+
     Events.create(%{
       type: "site:delete",
       ref: site.id,

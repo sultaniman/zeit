@@ -13,6 +13,7 @@ defmodule ZeitWeb.ViewHelpers do
   def nice_path(link) do
     uri = URI.parse(link)
     path = uri.path || "/"
+
     if uri.query do
       to_string([path, "?", URI.decode(uri.query)])
     else

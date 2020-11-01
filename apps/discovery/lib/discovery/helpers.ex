@@ -19,11 +19,12 @@ defmodule Discovery.Helpers do
 
   def get_proxy(%URI{scheme: "socks5"} = uri) do
     config = [
-      proxy: {:socks5, to_charlist(uri.host), uri.port},
+      proxy: {:socks5, to_charlist(uri.host), uri.port}
     ]
 
     if uri.userinfo do
       [user, pass] = String.split(uri.userinfo, ":")
+
       config
       |> Keyword.put(:socks5_user, user)
       |> Keyword.put(:socks5_pass, pass)
@@ -34,7 +35,7 @@ defmodule Discovery.Helpers do
 
   def get_proxy(uri) do
     config = [
-      proxy: to_charlist(uri.host),
+      proxy: to_charlist(uri.host)
     ]
 
     if uri.userinfo do

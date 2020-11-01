@@ -13,7 +13,7 @@ defmodule Zeit.Umbrella.MixProject do
           applications: [
             zeit: :permanent,
             zeit_web: :permanent,
-            discovery: :permanent,
+            discovery: :permanent
           ]
         ]
       ]

@@ -9,7 +9,9 @@ defmodule Zeit.Validators.ValidateProtocol do
   def validate_protocol(%Ecto.Changeset{} = change) do
     validate_change(change, :address, fn _, address ->
       case valid_protocol?(address) do
-        true -> []
+        true ->
+          []
+
         false ->
           [address: "Invalid protocol, should be one of socks5, http, https"]
       end

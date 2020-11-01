@@ -20,22 +20,24 @@ defmodule Zeit.Lookups do
   end
 
   def find_by_site(site) do
-    query = from(
-      l in Lookup,
-      where: l.site_id == ^site.id,
-      order_by: [desc: l.inserted_at]
-    )
+    query =
+      from(
+        l in Lookup,
+        where: l.site_id == ^site.id,
+        order_by: [desc: l.inserted_at]
+      )
 
     Repo.all(query)
   end
 
   def latest_for_site(site) do
-    query = from(
-      l in Lookup,
-      where: l.site_id == ^site.id,
-      order_by: [desc: l.inserted_at],
-      limit: 1
-    )
+    query =
+      from(
+        l in Lookup,
+        where: l.site_id == ^site.id,
+        order_by: [desc: l.inserted_at],
+        limit: 1
+      )
 
     case Repo.one(query) do
       nil -> nil

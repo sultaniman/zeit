@@ -6,9 +6,9 @@ defmodule Discovery.Box do
 
   @typedoc "Request configuration"
   typedstruct do
-    field :timestamp, pos_integer()
-    field :link, Link.t()
-    field :proxy, Proxy.t()
-    field :config, Keyword.t()
+    field(:timestamp, pos_integer())
+    field(:link, Link.t())
+    field(:proxy, Proxy.t())
+    field(:config, Keyword.t())
   end
 end

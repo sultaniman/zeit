@@ -2,6 +2,7 @@ defmodule Discovery.Fetch do
   @moduledoc false
   require Logger
   use Retry
+
   alias Discovery.{
     Box,
     Errors,

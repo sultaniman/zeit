@@ -1,6 +1,7 @@
 defmodule ZeitWeb.Components.Run do
   @moduledoc false
   use ZeitWeb, :live_component
+
   def mount(_socket, _params, _) do
   end
 
