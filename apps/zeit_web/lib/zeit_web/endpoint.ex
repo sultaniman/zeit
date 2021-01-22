@@ -7,7 +7,8 @@ defmodule ZeitWeb.Endpoint do
   @session_options [
     store: :cookie,
     key: "_zeit_web_key",
-    signing_salt: "e12K58D1"
+    signing_salt: "e12K58D1",
+    max_age: 60*60*24*120 # 120 days
   ]
 
   socket "/socket", ZeitWeb.UserSocket,

@@ -16,7 +16,8 @@
         </tr>
       </thead>
       <tbody>
-        <%= for rep <- @report do %>
+        <%= if length(@report) > 0 do %>
+          <%= for rep <- @report do %>
           <tr>
           <%= if rep && length(rep.snapshots) > 0 do %>
             <td class="report__link">
@@ -45,13 +46,16 @@
             </div>
             </td>
             <% end %>
-          <% else %>
-          <td colspan="<%= length(@proxies) + 2 %>">
-            Nothing collected yet…
-          </td>
           <% end %>
           </tr>
           <% end %>
+        <% else %>
+        <tr>
+          <td colspan="<%= length(@proxies) + 2 %>">
+            Nothing collected yet…
+          </td>
+        </tr>
+        <% end %>
       </tbody>
     </table>
   </div>

@@ -91,14 +91,15 @@ defmodule Discovery.Persist do
         },
         proxy: get_proxy(box.proxy)
       },
-      response: nil
+      response: nil,
+      encoding: "base64"
     }
 
     if result.response do
       %{
         artifact
         | response: %{
-            body: result.response.body,
+            body: result.response.body |> Base.encode64(),
             headers: result.response.headers,
             status: result.response.status_code
           }
