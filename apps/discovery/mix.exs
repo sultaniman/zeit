@@ -26,10 +26,10 @@ defmodule Discovery.MixProject do
   # Run "mix help deps" to learn about dependencies.
   defp deps do
     [
-      {:flow, "~> 1.0"},
+      {:flow, "~> 1.1"},
       {:retry, "~> 0.14.1"},
       {:typed_struct, "~> 0.2.1"},
-      {:httpoison, "~> 1.7"},
+      {:httpoison, "~> 1.8"},
       {:quantum, "~> 3.3"},
       {:timex, "~> 3.6"},
       {:gen_stage, "~> 1.0", override: true},
@@ -39,7 +39,7 @@ defmodule Discovery.MixProject do
 
       # AWS
       {:ex_aws, "~> 2.1"},
-      {:ex_aws_s3, "~> 2.0"},
+      {:ex_aws_s3, "~> 2.1"},
       {:sweet_xml, "~> 0.6"},
       {:configparser_ex, "~> 4.0"},
       {:ex_aws_sts, "~> 2.1"},
@@ -47,7 +47,7 @@ defmodule Discovery.MixProject do
       # To handle temporary files
       {:briefly, github: "CargoSense/briefly"},
 
-      {:mimic, "~> 1.3", only: :test},
+      {:mimic, "~> 1.4", only: :test},
       {:httparrot, "~> 1.3", only: :test, override: true},
       {:zeit, in_umbrella: true},
     ]

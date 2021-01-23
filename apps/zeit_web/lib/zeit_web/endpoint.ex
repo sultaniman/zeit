@@ -8,7 +8,8 @@ defmodule ZeitWeb.Endpoint do
     store: :cookie,
     key: "_zeit_web_key",
     signing_salt: "e12K58D1",
-    max_age: 60*60*24*120 # 120 days
+    # 120 days
+    max_age: 60 * 60 * 24 * 120
   ]
 
   socket "/socket", ZeitWeb.UserSocket,

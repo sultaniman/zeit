@@ -31,10 +31,10 @@ defmodule Zeit.MixProject do
   defp deps do
     [
       {:phoenix_pubsub, "~> 2.0"},
-      {:ecto_sql, "~> 3.4"},
+      {:ecto_sql, "~> 3.5"},
       {:postgrex, ">= 0.0.0"},
-      {:jason, "~> 1.0"},
-      {:size, "~> 0.1.0"},
+      {:jason, "~> 1.2"},
+      {:size, "~> 0.1"},
       {:timex, "~> 3.6"},
     ]
   end
