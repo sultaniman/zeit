@@ -8,7 +8,6 @@ defmodule ZeitWeb.ProxyLive.Index do
     {
       :ok,
       socket
-      |> assign(:proxy, %Proxy{})
       |> assign(:proxies, Proxies.list())
       |> assign(:user, user)
     }

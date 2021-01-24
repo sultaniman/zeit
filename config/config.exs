@@ -62,7 +62,7 @@ config :discovery, Discovery.Scheduler,
     # */15 * * * * every 15 minutes
     # 0 * * * * every hour
     # Hourly
-    {"*/15 * * * *", {Discovery.Pipeline, :run, []}},
+    {"0 * * * *", {Discovery.Pipeline, :run, []}},
     # {"*/1 * * * *", {Discovery.Pipeline.Pings, :run, []}},
     {"*/1 * * * *", {Discovery.System.Cleanup, :run, []}},
     # {"*/5 * * * *", {Discovery.Pipeline, :run, []}}
