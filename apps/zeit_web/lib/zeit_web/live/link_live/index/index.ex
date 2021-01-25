@@ -8,17 +8,20 @@ defmodule ZeitWeb.LinkLive.Index do
   """
   use ZeitWeb, :live_view
   alias Zeit.Links
-  alias Zeit.Links.Link
+  alias Zeit.Snapshots
 
   @impl true
   def mount(%{"id" => id}, %{"user" => user} = _session, socket) do
     link = Links.get!(id)
-
+    {count, ts} = Snapshots.all_timestamps(id, 1)
     {
       :ok,
       socket
       |> assign(:user, user)
       |> assign(:id, id)
+      |> assign(:link, link)
+      |> assign(:count, count)
+      |> assign(:timestamps, ts)
     }
   end
 

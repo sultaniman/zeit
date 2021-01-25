@@ -10,6 +10,32 @@ defmodule Zeit.Snapshots do
 
   def get!(id), do: Repo.get!(Snapshot, id)
 
+  @per_page 100
+  def snapshot_for(link_id, page) do
+    all_timestamps(link_id, page)
+  end
+
+  # Historical
+  def all_timestamps(link_id, page) do
+    {
+      Repo.one(
+        from s in Snapshot,
+        select: count(s.timestamp, :distinct),
+        where: s.link_id == ^link_id
+      ),
+      Repo.all(
+        from s in Snapshot,
+        select: s.timestamp,
+        where: s.link_id == ^link_id,
+        distinct: true,
+        order_by: [desc: s.timestamp],
+        offset: ^(page-1) * @per_page,
+        limit: @per_page
+      )
+    }
+  end
+
+  # Reports
   def snapshots_at(timestamp, link_id) do
     Repo.all(
       from s in Snapshot,

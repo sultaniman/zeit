@@ -1,1 +1,11 @@
-<%= @id %>
+<%= @count %>
+<%= for ts <- @timestamps do %>
+<div class="link-row zi-note">
+  <%= @id %>::<%= ts %>
+</div>
+<% end %>
+<style>
+.link-row {
+  margin: 15px 0;
+}
+</style>

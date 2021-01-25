@@ -1,4 +1,7 @@
 defmodule ZeitWeb.ReportLive.Index do
+  @moduledoc """
+  Popup view with diff report
+  """
   use ZeitWeb, :live_view
 
   alias Zeit.{Proxies, Sites, Snapshots}

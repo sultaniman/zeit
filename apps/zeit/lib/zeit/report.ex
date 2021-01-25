@@ -1,6 +1,7 @@
 defmodule Zeit.Report do
   @moduledoc false
   use TypedStruct
+
   alias Zeit.Sites.Site
   alias Zeit.Snapshots.Snapshot
 

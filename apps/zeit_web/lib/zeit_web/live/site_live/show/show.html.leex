@@ -40,8 +40,9 @@
         <%= with snapshots <- Links.latest_snapshots(link) do %>
         <tr>
           <td class="report__link">
-            <span><%= live_patch "aaa +", to: Routes.link_index_path(@socket, :index, link.id) %></span>
-            <code><%= nice_path(link.address) %></code>
+            <%= live_patch to: Routes.link_index_path(@socket, :index, link.id) do %>
+              <%= nice_path(link.address) %> &rarr;
+            <% end %>
           </td>
           <%= if length(snapshots) == 0 do %>
           <td colspan="<%= length(@proxies) + 2 %>">
