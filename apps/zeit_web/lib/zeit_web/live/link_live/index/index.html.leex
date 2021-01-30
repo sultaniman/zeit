@@ -1,9 +1,10 @@
 <%= @count %>
 <%= for ts <- @timestamps do %>
 <div class="link-row zi-note">
-  <%= @id %>::<%= ts %>
+  <%= inspect(Snapshots.snapshots_at(ts, @id)) %>
 </div>
 <% end %>
+
 <style>
 .link-row {
   margin: 15px 0;
