@@ -66,7 +66,7 @@ defmodule ZeitWeb.LinkLive.Index do
     if count <= per_page do
       0
     else
-      pages + div(count, per_page)
+      pages + rem(count, per_page)
     end
   end
 
