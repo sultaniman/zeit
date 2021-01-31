@@ -25,6 +25,7 @@ defmodule ZeitWeb.Strings do
   def submit_text(_, _), do: ""
 
   def get_error(nil), do: ""
+
   def get_error(error) do
     cond do
       String.contains?(error, "certificate_expired") ->

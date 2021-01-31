@@ -7,13 +7,15 @@ defmodule ZeitWeb.LinkLive.Index do
     2. Delete snapshot including results over proxies
   """
   use ZeitWeb, :live_view
-  alias Zeit.Links
-  alias Zeit.Snapshots
+  alias Zeit.{Links, Proxies, Snapshots}
 
   @impl true
-  def mount(%{"id" => id}, %{"user" => user} = _session, socket) do
+  def mount(%{"id" => id} = params, %{"user" => user} = _session, socket) do
     link = Links.get!(id)
-    {count, ts} = Snapshots.all_timestamps(id, 1)
+    page = params |> Map.get("page", "1") |> get_page()
+
+    {count, ts} = Snapshots.all_timestamps(id, page)
+
     {
       :ok,
       socket
@@ -21,13 +23,49 @@ defmodule ZeitWeb.LinkLive.Index do
       |> assign(:id, id)
       |> assign(:link, link)
       |> assign(:count, count)
+      |> assign(:proxies, prepare_proxies())
       |> assign(:timestamps, ts)
+      |> assign(:page, page)
+      |> assign(:pages, get_num_pages(count, Snapshots.per_page()))
+      |> assign(:per_page, Snapshots.per_page())
     }
   end
 
   @impl true
   def handle_params(_params, _url, socket) do
     {:noreply, socket}
+  end
+
+  defp prepare_proxies do
+    Proxies.list()
+    |> Enum.map(fn proxy ->
+      {proxy.id, proxy}
+    end)
+    |> Enum.into(%{})
+  end
+
+  defp get_page(page) do
+    case Integer.parse(page) do
+      {p, _} ->
+        if p <= 0 do
+          1
+        else
+          p
+        end
+
+      :error ->
+        1
+    end
+  end
+
+  defp get_num_pages(count, per_page) do
+    pages = div(count, per_page)
+
+    if count <= per_page do
+      0
+    else
+      pages + div(count, per_page)
+    end
   end
 
   # @impl true

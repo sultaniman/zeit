@@ -91,6 +91,7 @@ defmodule ZeitWeb do
       import ZeitWeb.Gettext
       alias ZeitWeb.Router.Helpers, as: Routes
       alias ZeitWeb.Strings
+      alias ZeitWeb.Statuses
     end
   end
 

@@ -87,4 +87,14 @@ defmodule ZeitWeb.Statuses do
     ]
     |> to_string()
   end
+
+  def format_class(nil), do: "warning"
+
+  def format_class(status) do
+    if status >= 400 do
+      "error"
+    else
+      "success"
+    end
+  end
 end

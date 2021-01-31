@@ -46,10 +46,9 @@ defmodule Discovery.MixProject do
 
       # To handle temporary files
       {:briefly, github: "CargoSense/briefly"},
-
       {:mimic, "~> 1.4", only: :test},
       {:httparrot, "~> 1.3", only: :test, override: true},
-      {:zeit, in_umbrella: true},
+      {:zeit, in_umbrella: true}
     ]
   end
 end
