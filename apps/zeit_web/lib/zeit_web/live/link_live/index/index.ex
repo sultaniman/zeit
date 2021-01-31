@@ -22,6 +22,8 @@ defmodule ZeitWeb.LinkLive.Index do
       |> assign(:user, user)
       |> assign(:id, id)
       |> assign(:link, link)
+      |> assign(:avg_request_duration, format_load_time(Snapshots.average_request_duration(id)))
+      |> assign(:total_size, Snapshots.total_size(id))
       |> assign(:count, count)
       |> assign(:proxies, prepare_proxies())
       |> assign(:timestamps, ts)
@@ -66,6 +68,10 @@ defmodule ZeitWeb.LinkLive.Index do
     else
       pages + div(count, per_page)
     end
+  end
+
+  defp format_load_time(load_time) do
+    Float.round(load_time, 2) / 1000
   end
 
   # @impl true

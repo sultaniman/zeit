@@ -1,6 +1,6 @@
 <div class="links">
   <div class="links-row zi-note">
-  <%= @count %> results/<%= @count*2 %> snapshots | other stats…
+  <%= @count %> results/<%= @count*2 %> snapshots | Average load time: <%= @avg_request_duration %>s | Space used: <%= @total_size %>
   </div>
   <%= for ts <- @timestamps do %>
   <div class="links-row zi-note">
@@ -8,7 +8,6 @@
       timestamp: ts,
       proxies: @proxies,
       slice: Snapshots.snapshots_at(ts, @id) %>
-
   </div>
   <% end %>
   <%= if @pages > @per_page do %>

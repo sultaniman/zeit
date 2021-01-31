@@ -12,6 +12,31 @@ defmodule Zeit.Snapshots do
 
   def get!(id), do: Repo.get!(Snapshot, id)
 
+  def average_request_duration(link_id) do
+    Repo.one(
+      from s in Snapshot,
+      where: s.link_id == ^link_id,
+      select: avg(s.request_duration)
+    )
+  end
+
+  def total_size(link_id) do
+    size = Repo.one(
+      from s in Snapshot,
+      where: s.link_id == ^link_id,
+      select: sum(s.size)
+    )
+
+    alternative_symbols = ~w(bytes Kb Mb Gb Tb Pb)
+
+    Size.humanize!(
+      size || 0,
+      output: :string,
+      round: 1,
+      symbols: alternative_symbols
+    )
+  end
+
   def snapshot_for(link_id, page) do
     all_timestamps(link_id, page)
   end
