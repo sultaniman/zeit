@@ -31,6 +31,11 @@
         <%= live_patch to: Routes.link_index_path(@socket, :index, link.id), class: "links-row__link" do %>
           <%= nice_path(link.address) %> &rarr;
         <% end %>
+        <%= live_patch to: Routes.site_show_path(@socket, :diff, @site, link.id, timestamp) do %>
+        <button class="zi-btn mini primary ghost compare float-right">
+          diff
+        </button>
+        <% end %>
         </div>
         <div>
         <%= live_component @socket, ZeitWeb.Components.Summary,

@@ -9,12 +9,12 @@ defmodule ZeitWeb.Components.Diff do
       <h4 class="card__title">
         <%= String.upcase(domain(@link.address)) %> ::
         <div class="diff__selector">
-          <%= for {proxy, index} <- Enum.with_index(@proxies) do %>
+          <%= for {proxy, index} <- Enum.with_index(@proxies |> Map.values()) do %>
             <a
               class="diff__<%= if @other.proxy_id == proxy.id do %>active<% else %>inactive<% end %>"
               phx-target="<%= @myself %>" phx-click="select-other" phx-value-proxy_id="<%= proxy.id %>">
               <%= proxy.name %>
-            </a> <%= if index < length(@proxies) - 1 do %> | <% end %>
+            </a> <%= if index < length(@proxies |> Map.values()) - 1 do %> | <% end %>
           <% end %>
         </div>
       </h4>

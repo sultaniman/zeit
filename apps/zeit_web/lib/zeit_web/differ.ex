@@ -31,11 +31,7 @@ defmodule ZeitWeb.Differ do
   end
 
   defp make_headers(%Snapshot{} = s2, proxies) do
-    proxy =
-      Enum.find(proxies, fn p ->
-        p.id == s2.proxy_id
-      end)
-
+    proxy = proxies |> Map.get(s2.proxy_id)
     [:similar, "headers", "Direct", proxy.name]
   end
 
