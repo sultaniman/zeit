@@ -13,7 +13,7 @@ defmodule ZeitWeb.Components.Pager do
       <% end %>
 
       <%# TODO: Implement page tails %>
-      <%= for page <- 1..@pages-1 do %>
+      <%= for page <- 1..@pages do %>
         <%= live_redirect to: get_link(@socket, @link.id, page), class: get_class(@current_page == page) do %>
         <%= page %>
         <% end %>

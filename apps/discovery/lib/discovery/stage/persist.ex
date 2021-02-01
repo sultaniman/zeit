@@ -92,7 +92,7 @@ defmodule Discovery.Persist do
         proxy: get_proxy(box.proxy)
       },
       response: nil,
-      encoding: "base64"
+      version: "1"
     }
 
     if result.response do

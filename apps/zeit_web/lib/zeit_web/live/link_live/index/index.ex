@@ -62,16 +62,24 @@ defmodule ZeitWeb.LinkLive.Index do
 
   defp get_num_pages(count, per_page) do
     pages = div(count, per_page)
+    IO.inspect(count)
+    IO.inspect(per_page)
+    IO.inspect(pages)
+    IO.inspect(rem(count, per_page))
 
     if count <= per_page do
       0
     else
-      pages + rem(count, per_page)
+      if rem(count, per_page) > 0 do
+        pages + 1
+      else
+        pages
+      end
     end
   end
 
   defp format_load_time(load_time) do
-    Float.round(load_time, 2) / 1000
+    (load_time / 1000) |> Float.round(2)
   end
 
   # @impl true
