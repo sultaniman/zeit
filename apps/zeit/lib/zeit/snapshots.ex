@@ -15,17 +15,18 @@ defmodule Zeit.Snapshots do
   def average_request_duration(link_id) do
     Repo.one(
       from s in Snapshot,
-      where: s.link_id == ^link_id,
-      select: avg(s.request_duration)
+        where: s.link_id == ^link_id,
+        select: avg(s.request_duration)
     )
   end
 
   def total_size(link_id) do
-    size = Repo.one(
-      from s in Snapshot,
-      where: s.link_id == ^link_id,
-      select: sum(s.size)
-    )
+    size =
+      Repo.one(
+        from s in Snapshot,
+          where: s.link_id == ^link_id,
+          select: sum(s.size)
+      )
 
     alternative_symbols = ~w(bytes Kb Mb Gb Tb Pb)
 

@@ -2,8 +2,6 @@ defmodule ZeitWeb.SiteLive.Show do
   @moduledoc false
   use ZeitWeb, :live_view
 
-  alias ZeitWeb.Statuses
-
   alias Zeit.{
     Links,
     Lookups,
@@ -19,9 +17,17 @@ defmodule ZeitWeb.SiteLive.Show do
       socket
       |> assign(:user, user)
       |> assign(:page, 1)
-      |> assign(:proxies, Proxies.list())
+      |> assign(:proxies, prepare_proxies())
       |> assign(:action, nil)
     }
+  end
+
+  defp prepare_proxies do
+    Proxies.list()
+    |> Enum.map(fn proxy ->
+      {proxy.id, proxy}
+    end)
+    |> Enum.into(%{})
   end
 
   @impl true

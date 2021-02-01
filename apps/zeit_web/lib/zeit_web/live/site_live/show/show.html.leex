@@ -1,79 +1,47 @@
 <div class="site-details">
-  <header class="site-details__header zi-card pin">
-    <h2>
-      <%= live_redirect raw("&larr;"), to: Routes.site_index_path(@socket, :index) %>
-      <%= domain(@site.address) %>
-      <%= if @site.is_archive do %>
-      <span aria-label="Archive mode" data-balloon-pos="up">
-        <img class="site-mode" src="<%= Routes.static_path(@socket, "/images/icons/package-white.svg") %>"/>
-      </span>
-      <% else %>
-      <span aria-label="Monitor mode" data-balloon-pos="up">
-        <img class="site-mode" src="<%= Routes.static_path(@socket, "/images/icons/activity-white.svg") %>"/>
-      </span>
-      <% end %>
-      <% lookup = Lookups.latest_for_site(@site) %>
-      <code>
-        <%= if lookup do %>
-          <%= lookup.inet_address %>
+  <div class="links">
+    <div class="links-row zi-note">
+      <p class="zi-title links__title">
+        <%= live_redirect raw("&larr;"), to: Routes.site_index_path(@socket, :index) %>
+        <%= domain(@site.address) %>
+        <%= if @site.is_archive do %>
+        <span aria-label="Archive mode" data-balloon-pos="up">
+          <img class="site-mode" src="<%= Routes.static_path(@socket, "/images/icons/package-white.svg") %>"/>
+        </span>
         <% else %>
-          ...
+        <span aria-label="Monitor mode" data-balloon-pos="up">
+          <img class="site-mode" src="<%= Routes.static_path(@socket, "/images/icons/activity-white.svg") %>"/>
+        </span>
         <% end %>
-      </code>
-    </h2>
-  </header>
-
-  <div class="report zi-card pin">
-    <table class="zi-table">
-      <thead>
-        <tr>
-          <th>Path</th>
-          <th>&nbsp;</th>
-          <th>Direct</th>
-          <%= for proxy <- @proxies do %>
-          <th data-proxy-id="<%= proxy.id %>"><%= proxy.name %></th>
-          <% end %>
-        </tr>
-      </thead>
-      <tbody>
-        <%= for link <- @links do %>
-        <%= with snapshots <- Links.latest_snapshots(link) do %>
-        <tr>
-          <td class="report__link">
-            <%= live_patch to: Routes.link_index_path(@socket, :index, link.id) do %>
-              <%= nice_path(link.address) %> &rarr;
-            <% end %>
-          </td>
-          <%= if length(snapshots) == 0 do %>
-          <td colspan="<%= length(@proxies) + 2 %>">
-            N/A
-          </td>
+        <% lookup = Lookups.latest_for_site(@site) %>
+        <code>
+          <%= if lookup do %>
+            <%= lookup.inet_address %>
           <% else %>
-            <td style="width: 62px">
-            <%= live_patch to: Routes.site_show_path(@socket, :diff, @site, link.id, Enum.at(snapshots, 0).timestamp) do %>
-              <button class="zi-btn mini primary ghost compare">
-                show diff
-              </button>
-            <% end %>
-            </td>
-            <%= for snapshot <- snapshots do %>
-            <td data-proxy-id="<%= snapshot.proxy_id %>">
-            <div class="zi-fieldset report__fieldset">
-              <div class="zi-fieldset-content report__fieldset__content">
-                <span class="zi-badge <%= snapshot_status_color(snapshot) %> dot" data-balloon-pos="up">&nbsp;</span>
-                <%= format_bytes(snapshot.size) %> /
-                <span aria-label="<%= Statuses.format(snapshot.http_status) %>" data-balloon-pos="up"><%= snapshot.http_status || "N/A" %></span> /
-                <%= snapshot.request_duration/1000 %>s
-              </div>
-            </div>
-            </td>
-            <% end %>
+            ...
           <% end %>
-        </tr>
+        </code>
+      </p>
+    </div>
+    <%= for link <- @links do %>
+    <%= with {timestamp, snapshots} <- Links.latest_snapshots(link) do %>
+    <div class="links-row zi-note">
+      <div class="master-detail">
+        <div>
+        <%= live_patch to: Routes.link_index_path(@socket, :index, link.id), class: "links-row__link" do %>
+          <%= nice_path(link.address) %> &rarr;
         <% end %>
-        <% end %>
-      </tbody>
-    </table>
+        </div>
+        <div>
+        <%= live_component @socket, ZeitWeb.Components.Summary,
+          timestamp: timestamp,
+          proxies: @proxies,
+          slice: snapshots %>
+        </div>
+      </div>
+    </div>
+    <% end %>
+    <% end %>
   </div>
 
   <%= if @live_action in [:edit] do %>

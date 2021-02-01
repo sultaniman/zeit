@@ -60,10 +60,10 @@ defmodule Zeit.Links do
 
     case Repo.one(query) do
       nil ->
-        []
+        {nil, []}
 
       %Snapshot{timestamp: timestamp} ->
-        Snapshots.snapshots_at(timestamp, link.id)
+        {timestamp, Snapshots.snapshots_at(timestamp, link.id)}
     end
   end
 
