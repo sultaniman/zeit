@@ -9,9 +9,9 @@ defmodule ZeitWeb.Components.Summary do
       <span class="summary__date" title="Snapshot date">
       <%= format_timestamp(@timestamp) %>
       </span>
-      <div class="summary__snapshots">
+      <div class="summary__snapshots" data-timestamp="<%= @timestamp %>">
       <%= for item <- @slice do %>
-        <div class="summary__box">
+        <div class="summary__box" data-id="<%= item.id %>" data-link-id="<%= item.link_id %>" >
           <%= live_component @socket,
             ZeitWeb.Components.Banner,
             snapshot: item,

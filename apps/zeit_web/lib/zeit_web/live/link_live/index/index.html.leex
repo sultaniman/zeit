@@ -1,6 +1,6 @@
 <div class="links">
   <div class="links-row zi-note">
-  <p class="zi-title links__title">Historical snapshots for <%= domain(@link.address) %> &rarr; <%= nice_path(@link.address) %></p>
+  <p class="zi-title links__title links__title--spaced">Historical snapshots for <%= domain(@link.address) %> &rarr; <%= nice_path(@link.address) %></p>
   <%= @count %> results/<%= @count*2 %> snapshots | Average load time: <%= @avg_request_duration %>s | Space used: <%= @total_size %>
   </div>
   <%= for ts <- @timestamps do %>
