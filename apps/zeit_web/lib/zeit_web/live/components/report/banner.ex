@@ -12,7 +12,7 @@ defmodule ZeitWeb.Components.Banner do
       <img src="<%= Routes.static_path(@socket, "/images/icons/direct.svg") %>"/>
       </span>
       <% else %>
-      <%= live_patch to: Routes.site_show_path(@socket, :diff, @site, @snapshot.link_id, @snapshot.timestamp), class: "banner__diff" do %>
+      <%= live_patch to: @route.(@socket, :diff, @site, @snapshot.link_id, @snapshot.timestamp), class: "banner__diff" do %>
         <img src="<%= Routes.static_path(@socket, "/images/icons/diff.svg") %>"/>
       <% end %>
       <span class="banner__route" aria-label="Via proxy" data-balloon-pos="left">
