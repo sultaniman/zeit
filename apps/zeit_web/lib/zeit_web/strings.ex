@@ -42,4 +42,17 @@ defmodule ZeitWeb.Strings do
         first
     end
   end
+
+  def humanize_size(%Decimal{} = num_bytes) do
+    num_bytes |> Decimal.to_integer() |> humanize_size()
+  end
+
+  def humanize_size(num_bytes) do
+    Size.humanize!(
+      num_bytes || 0,
+      output: :string,
+      round: 1,
+      symbols: ~w(bytes Kb Mb Gb Tb Pb)
+    )
+  end
 end

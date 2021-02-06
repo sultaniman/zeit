@@ -16,7 +16,7 @@ defmodule ZeitWeb.Components.Summary do
             ZeitWeb.Components.Banner,
             snapshot: item,
             site: @site,
-            route: @route,
+            route_fn: @route_fn,
             proxies: @proxies %>
         </div>
         <% end %>
@@ -25,6 +25,7 @@ defmodule ZeitWeb.Components.Summary do
     """
   end
 
+  defp format_timestamp(nil), do: ""
   defp format_timestamp(timestamp) do
     timestamp
     |> DateTime.from_unix!()

@@ -37,7 +37,7 @@
           timestamp: timestamp,
           proxies: @proxies,
           site: @site,
-          route: &Routes.site_show_path/5,
+          route_fn: &diff_link/2,
           slice: snapshots %>
         </div>
       </div>

@@ -7,7 +7,7 @@ defmodule ZeitWeb.LinkLive.Index do
     2. Delete snapshot including results over proxies
   """
   use ZeitWeb, :live_view
-  alias Zeit.{Links, Proxies, Snapshots}
+  alias Zeit.{Links, Proxies, Sites, Snapshots}
 
   @impl true
   def mount(%{"id" => id} = params, %{"user" => user} = _session, socket) do
@@ -22,7 +22,9 @@ defmodule ZeitWeb.LinkLive.Index do
       |> assign(:user, user)
       |> assign(:id, id)
       |> assign(:link, link)
-      |> assign(:avg_request_duration, format_load_time(Snapshots.average_request_duration(id)))
+      |> assign(:site, Sites.get!(link.site_id))
+      |> assign(:avg_request_duration, id |> Snapshots.average_request_duration() |> format_load_time())
+      |> assign(:avg_page_size, id |> Snapshots.average_page_size() |> Strings.humanize_size())
       |> assign(:total_size, Snapshots.total_size(id))
       |> assign(:count, count)
       |> assign(:proxies, prepare_proxies())
@@ -34,9 +36,28 @@ defmodule ZeitWeb.LinkLive.Index do
   end
 
   @impl true
-  def handle_params(_params, _url, socket) do
-    {:noreply, socket}
+  def handle_params(params, _url, socket) do
+    {:noreply, apply_action(socket, socket.assigns.live_action, params)}
   end
+
+  def diff_link(socket, snapshot) do
+    direct = Snapshots.direct_snapshot(snapshot.link_id, snapshot.timestamp)
+    Routes.link_index_path(socket, :diff, snapshot.link_id, direct.id, snapshot.id)
+  end
+
+  defp apply_action(socket, :index, _params) do
+    socket
+    |> assign(:page_title, "Snapshot history")
+  end
+
+  defp apply_action(socket, :diff, %{"first" => first, "second" => second}) do
+    socket
+    |> assign(:first, Snapshots.get!(first))
+    |> assign(:second, Snapshots.get!(second))
+    |> assign(:page_title, "View diff")
+  end
+
+  defp apply_action(socket, _, _), do: socket
 
   defp prepare_proxies do
     Proxies.list()
@@ -62,10 +83,6 @@ defmodule ZeitWeb.LinkLive.Index do
 
   defp get_num_pages(count, per_page) do
     pages = div(count, per_page)
-    IO.inspect(count)
-    IO.inspect(per_page)
-    IO.inspect(pages)
-    IO.inspect(rem(count, per_page))
 
     if count <= per_page do
       0
@@ -78,6 +95,7 @@ defmodule ZeitWeb.LinkLive.Index do
     end
   end
 
+  defp format_load_time(nil), do: 0
   defp format_load_time(load_time) do
     (load_time / 1000) |> Float.round(2)
   end

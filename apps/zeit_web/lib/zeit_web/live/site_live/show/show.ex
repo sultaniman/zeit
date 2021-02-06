@@ -67,4 +67,8 @@ defmodule ZeitWeb.SiteLive.Show do
       |> assign(:links, Sites.links(site))
     }
   end
+
+  def diff_link(socket, snapshot) do
+    Routes.site_show_path(socket, :diff, snapshot.site_id, snapshot.link_id, snapshot.timestamp)
+  end
 end

@@ -1,13 +1,15 @@
 <div class="links">
   <div class="links-row zi-note">
   <p class="zi-title links__title links__title--spaced">Historical snapshots for <%= domain(@link.address) %> &rarr; <%= nice_path(@link.address) %></p>
-  <%= @count %> results/<%= @count*2 %> snapshots | Average load time: <%= @avg_request_duration %>s | Space used: <%= @total_size %>
+  <%= @count %> results/<%= @count*2 %> snapshots | Average load time: <%= @avg_request_duration %>s | Averate page size: <%= @avg_page_size %>s | Space used: <%= @total_size %>
   </div>
   <%= for ts <- @timestamps do %>
   <div class="links-row zi-note">
     <%= live_component @socket, ZeitWeb.Components.Summary,
       timestamp: ts,
       proxies: @proxies,
+      site: @site,
+      route_fn: &diff_link/2,
       slice: Snapshots.snapshots_at(ts, @id) %>
   </div>
   <% end %>
@@ -17,5 +19,16 @@
     current_page: @page,
     link: @link,
     pages: @pages %>
+  <% end %>
+
+  <%= if @live_action in [:diff] do %>
+    <%= live_modal @socket, ZeitWeb.Components.Diffy,
+      id: @site.id,
+      link: @link,
+      proxies: @proxies,
+      first: @first,
+      second: @second,
+      return_to: Routes.link_index_path(@socket, :index, @link.id),
+      class: "modal modal--diff" %>
   <% end %>
 </div>

@@ -44,6 +44,9 @@ defmodule ZeitWeb.Router do
 
     live "link/:id", LinkLive.Index, :index
 
+    # :first and :second are snapshot ids we want to compare
+    live "link/:id/diff/:first/:second", LinkLive.Index, :diff
+
     # Proxies
     live "/proxies", ProxyLive.Index, :index
     live "/proxies/new", ProxyLive.Index, :new

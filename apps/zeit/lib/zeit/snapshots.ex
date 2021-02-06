@@ -20,6 +20,14 @@ defmodule Zeit.Snapshots do
     )
   end
 
+  def average_page_size(link_id) do
+    Repo.one(
+      from s in Snapshot,
+        where: s.link_id == ^link_id,
+        select: avg(s.size)
+    )
+  end
+
   def total_size(link_id) do
     size =
       Repo.one(
@@ -40,6 +48,13 @@ defmodule Zeit.Snapshots do
 
   def snapshot_for(link_id, page) do
     all_timestamps(link_id, page)
+  end
+
+  def direct_snapshot(link_id, timestamp) do
+    Repo.one(
+      from s in Snapshot,
+        where: s.link_id == ^link_id and is_nil(s.proxy_id) and s.timestamp == ^timestamp
+    )
   end
 
   # Historical
