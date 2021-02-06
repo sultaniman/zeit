@@ -40,7 +40,7 @@ defmodule ZeitWeb.Router do
 
     live "/sites/:id", SiteLive.Show, :show
     live "/sites/:id/show/edit", SiteLive.Show, :edit
-    live "/sites/:id/diff/:link_id/:timestamp", SiteLive.Show, :diff
+    live "/sites/:id/diff/:first/:second", SiteLive.Show, :diff
 
     live "link/:id", LinkLive.Index, :index
 
