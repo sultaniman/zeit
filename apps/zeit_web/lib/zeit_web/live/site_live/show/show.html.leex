@@ -73,13 +73,12 @@
   <% end %>
 
   <%= if @live_action in [:diff] do %>
-    <%= live_modal @socket, ZeitWeb.Components.Diff,
+    <%= live_modal @socket, ZeitWeb.Components.Diffy,
       id: @site.id,
       link: @link,
       proxies: @proxies,
-      direct: @direct,
-      other: Enum.at(@over_proxy, 0),
-      over_proxy: @over_proxy,
+      first: @first,
+      second: @second,
       return_to: Routes.site_show_path(@socket, :show, @site),
       class: "modal modal--diff" %>
   <% end %>

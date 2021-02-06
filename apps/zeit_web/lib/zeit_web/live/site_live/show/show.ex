@@ -44,13 +44,13 @@ defmodule ZeitWeb.SiteLive.Show do
     }
   end
 
-  defp apply_action(socket, :diff, %{"link_id" => link_id, "timestamp" => timestamp}) do
-    snapshots = Snapshots.snapshots_at(timestamp, link_id)
-
+  defp apply_action(socket, :diff, %{"first" => first, "second" => second}) do
+    first = Snapshots.get!(first)
+    link = Links.get!(first.link_id)
     socket
-    |> assign(:link, Links.get!(link_id))
-    |> assign(:direct, Enum.find(snapshots, &is_nil(&1.proxy_id)))
-    |> assign(:over_proxy, Enum.reject(snapshots, &is_nil(&1.proxy_id)))
+    |> assign(:link, link)
+    |> assign(:first, first)
+    |> assign(:second, Snapshots.get!(second))
   end
 
   defp apply_action(socket, _, _), do: socket
@@ -69,6 +69,7 @@ defmodule ZeitWeb.SiteLive.Show do
   end
 
   def diff_link(socket, snapshot) do
-    Routes.site_show_path(socket, :diff, snapshot.site_id, snapshot.link_id, snapshot.timestamp)
+    direct = Snapshots.direct_snapshot(snapshot.link_id, snapshot.timestamp)
+    Routes.site_show_path(socket, :diff, snapshot.site_id, direct.id, snapshot.id)
   end
 end
