@@ -15,6 +15,8 @@ defmodule ZeitWeb.Components.Summary do
           <%= live_component @socket,
             ZeitWeb.Components.Banner,
             snapshot: item,
+            site: @site,
+            route: @route,
             proxies: @proxies %>
         </div>
         <% end %>
