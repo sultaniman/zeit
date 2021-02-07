@@ -7,7 +7,7 @@
       <%= domain(@link.address) %> &rarr; <%= nice_path(@link.address) %>
     </a>
   </p>
-  <%= @count %> results/<%= @count*2 %> snapshots | Average load time: <%= @avg_request_duration %>s | Average page size: <%= @avg_page_size %>s | Space used: <%= @total_size %>
+  <%= @count %> results/<%= @total_snapshots %> snapshots | Average load time: <%= @avg_request_duration %>s | Average page size: <%= @avg_page_size %> | Space used: <%= @total_size %>
   </div>
   <%= for ts <- @timestamps do %>
   <div class="links-row zi-note">
@@ -34,6 +34,16 @@
       proxies: @proxies,
       first: @first,
       second: @second,
+      return_to: Routes.link_index_path(@socket, :index, @link.id),
+      class: "modal modal--diff" %>
+  <% end %>
+
+  <%= if @live_action in [:preview] do %>
+    <%= live_modal @socket, ZeitWeb.Components.Preview,
+      id: @site.id,
+      link: @link,
+      proxies: @proxies,
+      snapshot: @snapshot,
       return_to: Routes.link_index_path(@socket, :index, @link.id),
       class: "modal modal--diff" %>
   <% end %>
