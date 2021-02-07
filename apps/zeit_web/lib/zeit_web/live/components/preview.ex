@@ -1,4 +1,5 @@
 defmodule ZeitWeb.Components.Preview do
+  @moduledoc false
   use ZeitWeb, :live_component
 
   @impl true

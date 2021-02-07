@@ -10,7 +10,7 @@ defmodule ZeitWeb.Components.Summary do
       <%= format_timestamp(@timestamp) %>
       </span>
       <div class="summary__snapshots" data-timestamp="<%= @timestamp %>">
-      <%= for item <- @slice do %>
+      <%= for item <- prepare_snapshots(@slice, @proxies |> Map.keys()) do %>
         <div class="summary__box" data-id="<%= item.id %>" data-link-id="<%= item.link_id %>" >
           <%= live_component @socket,
             ZeitWeb.Components.Banner,
@@ -25,7 +25,19 @@ defmodule ZeitWeb.Components.Summary do
     """
   end
 
+  defp prepare_snapshots(slice, proxy_keys) do
+    [
+      Enum.find(slice, fn s ->
+        is_nil(s.proxy_id)
+      end)
+      | Enum.map(proxy_keys, fn k ->
+          Enum.find(slice, fn s -> s.proxy_id == k end)
+        end)
+    ]
+  end
+
   defp format_timestamp(nil), do: ""
+
   defp format_timestamp(timestamp) do
     timestamp
     |> DateTime.from_unix!()
