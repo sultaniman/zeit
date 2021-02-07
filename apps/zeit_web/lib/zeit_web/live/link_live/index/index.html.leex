@@ -7,7 +7,7 @@
       <%= domain(@link.address) %> &rarr; <%= nice_path(@link.address) %>
     </a>
   </p>
-  <%= @count %> results/<%= @count*2 %> snapshots | Average load time: <%= @avg_request_duration %>s | Averate page size: <%= @avg_page_size %>s | Space used: <%= @total_size %>
+  <%= @count %> results/<%= @count*2 %> snapshots | Average load time: <%= @avg_request_duration %>s | Average page size: <%= @avg_page_size %>s | Space used: <%= @total_size %>
   </div>
   <%= for ts <- @timestamps do %>
   <div class="links-row zi-note">
