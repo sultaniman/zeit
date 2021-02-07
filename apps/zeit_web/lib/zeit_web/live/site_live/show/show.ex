@@ -47,6 +47,7 @@ defmodule ZeitWeb.SiteLive.Show do
   defp apply_action(socket, :diff, %{"first" => first, "second" => second}) do
     first = Snapshots.get!(first)
     link = Links.get!(first.link_id)
+
     socket
     |> assign(:link, link)
     |> assign(:first, first)

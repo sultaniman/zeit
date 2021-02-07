@@ -23,7 +23,10 @@ defmodule ZeitWeb.LinkLive.Index do
       |> assign(:id, id)
       |> assign(:link, link)
       |> assign(:site, Sites.get!(link.site_id))
-      |> assign(:avg_request_duration, id |> Snapshots.average_request_duration() |> format_load_time())
+      |> assign(
+        :avg_request_duration,
+        id |> Snapshots.average_request_duration() |> format_load_time()
+      )
       |> assign(:avg_page_size, id |> Snapshots.average_page_size() |> Strings.humanize_size())
       |> assign(:total_size, Snapshots.total_size(id))
       |> assign(:count, count)
@@ -103,6 +106,7 @@ defmodule ZeitWeb.LinkLive.Index do
   end
 
   defp format_load_time(nil), do: 0
+
   defp format_load_time(load_time) do
     (load_time / 1000) |> Float.round(2)
   end
