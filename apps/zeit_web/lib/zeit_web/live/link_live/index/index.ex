@@ -27,6 +27,7 @@ defmodule ZeitWeb.LinkLive.Index do
       |> assign(:avg_page_size, id |> Snapshots.average_page_size() |> Strings.humanize_size())
       |> assign(:total_size, Snapshots.total_size(id))
       |> assign(:count, count)
+      |> assign(:total_snapshots, Snapshots.count_for_link(id))
       |> assign(:proxies, prepare_proxies())
       |> assign(:timestamps, ts)
       |> assign(:page, page)
@@ -55,6 +56,12 @@ defmodule ZeitWeb.LinkLive.Index do
     |> assign(:first, Snapshots.get!(first))
     |> assign(:second, Snapshots.get!(second))
     |> assign(:page_title, "View diff")
+  end
+
+  defp apply_action(socket, :preview, %{"snapshot_id" => snapshot_id}) do
+    socket
+    |> assign(:snapshot, Snapshots.get!(snapshot_id))
+    |> assign(:page_title, "Preview page")
   end
 
   defp apply_action(socket, _, _), do: socket

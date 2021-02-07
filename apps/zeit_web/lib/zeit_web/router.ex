@@ -47,10 +47,19 @@ defmodule ZeitWeb.Router do
     # :first and :second are snapshot ids we want to compare
     live "link/:id/diff/:first/:second", LinkLive.Index, :diff
 
+    # Preview popup support
+    live "link/:id/preview/:snapshot_id", LinkLive.Index, :preview
+
     # Proxies
     live "/proxies", ProxyLive.Index, :index
     live "/proxies/new", ProxyLive.Index, :new
     live "/proxies/:id/edit", ProxyLive.Index, :edit
+  end
+
+  # Preview scope is used to render snapshots in iframe
+  scope "/preview", ZeitWeb do
+    pipe_through [:browser, :public, :protected]
+    get "/:snapshot_id", PreviewController, :index
   end
 
   # Auth scope

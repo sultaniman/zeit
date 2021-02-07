@@ -57,6 +57,14 @@ defmodule Zeit.Snapshots do
     )
   end
 
+  def count_for_link(link_id) do
+    Repo.one(
+      from s in Snapshot,
+        select: count(s.id),
+        where: s.link_id == ^link_id
+    )
+  end
+
   # Historical
   def all_timestamps(link_id, page) do
     qty = per_page()

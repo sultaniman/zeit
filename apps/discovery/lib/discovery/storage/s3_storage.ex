@@ -9,5 +9,11 @@ defmodule Discovery.S3Storage do
     |> ExAws.request!()
   end
 
+  def get(path) do
+    @bucket
+    |> ExAws.S3.get_object(path)
+    |> ExAws.request()
+  end
+
   def name_only?, do: true
 end
