@@ -12,13 +12,9 @@ defmodule ZeitWeb.Components.Banner do
       <img src="<%= Routes.static_path(@socket, "/images/icons/direct.svg") %>"/>
       </span>
       <% else %>
-      <%= live_patch to: @route_fn.(@socket, @snapshot), class: "banner__diff", title: "View diff" do %>
+        <%= live_patch to: @route_fn.(@socket, @snapshot), class: "banner__diff", title: "View diff" do %>
         <img src="<%= Routes.static_path(@socket, "/images/icons/diff.svg") %>"/>
-      <% end %>
-      <span class="banner__route" aria-label="Via proxy" data-balloon-pos="left">
-        <%= @proxies |> get_proxy_name(@snapshot.proxy_id) %>
-        <img src="<%= Routes.static_path(@socket, "/images/icons/proxy.svg") %>"/>
-      </span>
+        <% end %>
       <% end %>
       <span class="zi-badge <%= Statuses.format_class(@snapshot.http_status) %>">
         <%= @snapshot.http_status %>
@@ -27,6 +23,15 @@ defmodule ZeitWeb.Components.Banner do
       <%= @snapshot.request_duration/1000 %>s
       <%= if !is_nil(@snapshot.error) do %> /
       <%= Strings.get_error(@snapshot.error) %>
+      <% end %>
+
+      <%= if @snapshot.proxy_id do %>
+      <div>
+        <span class="banner__route" aria-label="Via proxy" data-balloon-pos="left">
+          <img src="<%= Routes.static_path(@socket, "/images/icons/proxy.svg") %>"/>
+          <%= @proxies |> get_proxy_name(@snapshot.proxy_id) %>
+        </span>
+      </div>
       <% end %>
       </span>
     </div>
