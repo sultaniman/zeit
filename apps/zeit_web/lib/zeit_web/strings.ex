@@ -44,7 +44,7 @@ defmodule ZeitWeb.Strings do
   end
 
   def humanize_size(%Decimal{} = num_bytes) do
-    num_bytes |> Decimal.to_integer() |> humanize_size()
+    num_bytes |> Decimal.round() |> Decimal.to_integer() |> humanize_size()
   end
 
   def humanize_size(num_bytes) do
