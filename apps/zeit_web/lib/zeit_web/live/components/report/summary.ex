@@ -27,13 +27,19 @@ defmodule ZeitWeb.Components.Summary do
 
   defp prepare_snapshots(slice, proxy_keys) do
     [
-      Enum.find(slice, fn s ->
-        is_nil(s.proxy_id)
-      end)
-      | Enum.map(proxy_keys, fn k ->
-          Enum.find(slice, fn s -> s.proxy_id == k end)
-        end)
+      Enum.find(slice, &is_direct?/1)
+      | map_proxied(slice, proxy_keys)
     ]
+  end
+
+  defp is_direct?(snapshot) do
+    is_nil(snapshot.proxy_id)
+  end
+
+  defp map_proxied(slice, keys) do
+    Enum.map(keys, fn k ->
+      Enum.find(slice, fn s -> s.proxy_id == k end)
+    end)
   end
 
   defp format_timestamp(nil), do: ""
