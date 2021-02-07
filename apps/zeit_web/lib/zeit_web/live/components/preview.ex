@@ -6,7 +6,7 @@ defmodule ZeitWeb.Components.Preview do
     ~L"""
     <div class="preview zi-fieldset-content modal__content">
       <h4 class="card__title">
-        PREVIEW: <%= String.upcase(@link.address) %> VIA <%= String.upcase(@proxies[@snapshot.proxy_id].name) %>
+        PREVIEW: <%= String.upcase(@link.address) %> <%= if @snapshot.proxy_id do %>VIA <%= String.upcase(@proxies[@snapshot.proxy_id].name) %> <% end %>
       </h4>
 
       <div class="preview__iframe">
