@@ -2,8 +2,8 @@ defmodule Discovery.Request do
   @moduledoc false
   alias Discovery.Fetch
 
-  # 15s
-  @default_timeout 30_000
+  # 3 minutes
+  @default_timeout 60_000 * 3
 
   def run(boxes) do
     boxes

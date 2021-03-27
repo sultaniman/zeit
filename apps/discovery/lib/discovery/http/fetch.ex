@@ -34,18 +34,23 @@ defmodule Discovery.Fetch do
     }
   end
 
-  def get(link, headers, options, num_redirects) do
+  def get(link, headers \\ [], options \\ [], num_redirects \\ 0) do
     case HTTPoison.get(link, headers, options) do
       {:ok, %HTTPoison.Response{} = response} ->
         if Enum.member?(@redirect_statuses, response.status_code) do
           num_redirects = num_redirects + 1
 
           if num_redirects <= @max_redirects do
-            next = get_location(response.headers)
+            next_location = get_location(link, response.headers)
 
-            Logger.notice(["Following redirect #", Integer.to_string(num_redirects), " to ", next])
+            Logger.notice([
+              "Following redirect #",
+              Integer.to_string(num_redirects),
+              " to ",
+              next_location
+            ])
 
-            get(next, headers, options, num_redirects)
+            get(next_location, headers, options, num_redirects)
           else
             {:error, %Result{error: "exceeded maximum redirects"}}
           end
@@ -58,12 +63,18 @@ defmodule Discovery.Fetch do
     end
   end
 
-  defp get_location(headers) do
+  defp get_location(base_url, headers) do
     {_h, location} =
       Enum.find(headers, fn {header, _location} ->
         String.downcase(header) == "location"
       end)
 
-    location
+    if location |> String.starts_with?("http") do
+      location
+    else
+      Logger.notice(["Relative location redirect found ", location, "for ", base_url])
+      uri = URI.parse(base_url)
+      [uri.scheme || "http", "://", uri.host, location] |> to_string()
+    end
   end
 end
