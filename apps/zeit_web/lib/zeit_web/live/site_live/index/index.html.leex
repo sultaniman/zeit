@@ -52,7 +52,7 @@
 
   <div class="content">
   <%= for site <- @sites do %>
-    <%= live_component @socket, ZeitWeb.Components.SiteCard,
+    <%= live_component @socket, ZeitWeb.Components.SiteItem,
       site: site,
       links_count: Sites.links_count(site),
       snapshots_count: Sites.snapshots_count(site),
