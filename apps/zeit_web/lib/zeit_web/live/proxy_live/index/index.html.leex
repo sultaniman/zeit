@@ -23,7 +23,7 @@
   <% end %>
 
 
-  <div class="content">
+  <div class="proxies-list">
   <%= for proxy <- @proxies do %>
     <%= live_component @socket, ZeitWeb.Components.ProxyCard,
       proxy: proxy,
