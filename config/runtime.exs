@@ -10,7 +10,7 @@ database_url =
 config :zeit, Zeit.Repo,
   # ssl: true,
   url: database_url,
-  pool_size: String.to_integer(System.get_env("POOL_SIZE") || "100"),
+  pool_size: String.to_integer(System.get_env("POOL_SIZE") || "40"),
   pool: DBConnection.ConnectionPool
 
 secret_key_base =
