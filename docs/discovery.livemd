@@ -1,0 +1,17 @@
+# explay
+
+## Enum reject
+
+```elixir
+[12, 3, 3, 5, 6] |> Enum.reject(fn n -> rem(n, 2) == 0 end)
+```
+
+## Strings
+
+```elixir
+:observer.start()
+```
+
+```elixir
+:observer.stop()
+```
